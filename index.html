@@ -217,14 +217,17 @@
 
       "HS001":{
         name:"Ngô Đa Hiếu"
+        exam:"0304"
       },
 
       "HS002":{
         name:"Trần Minh Hiếu"
+        exam:"0302"
       },
 
       "HS003":{
         name:"Lê Gia Hân"
+        exam:"0301"
       }
     };
 
@@ -255,6 +258,11 @@
       'studentName',
       students[code].name
     );
+
+    localStorage.setItem(
+    'examID',
+    students[code].exam
+  );
 
     // CHUYỂN TRANG
 
