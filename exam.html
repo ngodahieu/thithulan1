@@ -21,7 +21,7 @@
     }
 
     body{
-      background:#f1f5f9;
+      background:#eef2f7;
       min-height:100vh;
       padding:20px;
     }
@@ -33,184 +33,251 @@
 
     /* ===== TOP BAR ===== */
 
-    .top{
+    .top-bar{
+
       position:sticky;
       top:15px;
       z-index:1000;
 
       display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:20px;
-
-      padding:22px 30px;
-
-      border-radius:25px;
-
-      background:#0f172a;
-
-      box-shadow:0 10px 25px rgba(0,0,0,.15);
-
-      margin-bottom:25px;
-    }
-
-    .top-left{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      color:white;
-    }
-
-    .exam-title{
-      font-size:30px;
-      font-weight:800;
-      letter-spacing:1px;
-    }
-
-    .candidate-info{
-      line-height:1.9;
-      color:#cbd5e1;
-      font-size:15px;
-    }
-
-    .top-right{
-      display:flex;
+      justify-content:flex-end;
       align-items:center;
       gap:18px;
+
+      padding:18px 25px;
+
+      background:#f8fafc;
+
+      border:1px solid #cbd5e1;
+
+      border-radius:20px;
+
+      margin-bottom:25px;
+
+      box-shadow:0 8px 20px rgba(0,0,0,.06);
+
     }
 
     /* ===== TIMER ===== */
 
     .timer-box{
+
       background:white;
-      border-radius:20px;
-      padding:12px 25px;
+
+      border:1px solid #cbd5e1;
+
+      border-radius:18px;
+
+      padding:10px 25px;
+
       text-align:center;
+
       min-width:160px;
+
     }
 
     .timer-label{
+
       font-size:13px;
+
       color:#64748b;
+
       margin-bottom:4px;
+
     }
 
     .timer-number{
-      font-size:36px;
+
+      font-size:34px;
+
       font-weight:800;
+
       color:#dc2626;
+
     }
 
     /* ===== BUTTON ===== */
 
     .submit-btn{
-      height:65px;
-      padding:0 30px;
+
+      height:62px;
+
+      padding:0 28px;
+
       border:none;
-      border-radius:20px;
+
+      border-radius:18px;
+
       background:#2563eb;
+
       color:white;
-      font-size:17px;
+
+      font-size:16px;
+
       font-weight:700;
+
       cursor:pointer;
+
       transition:.25s;
+
     }
 
     .submit-btn:hover{
+
       background:#1d4ed8;
+
       transform:translateY(-2px);
+
     }
 
     /* ===== LAYOUT ===== */
 
     .exam-layout{
+
       display:grid;
-      grid-template-columns:1fr 1.4fr;
+
+      grid-template-columns:1fr 1.5fr;
+
       gap:25px;
+
       align-items:start;
+
     }
 
     /* ===== PASSAGE ===== */
 
     .passage{
-      position:sticky;
-      top:130px;
 
-      background:white;
+      position:sticky;
+
+      top:120px;
+
+      background:#f8fafc;
+
+      border:1px solid #94a3b8;
 
       border-radius:25px;
 
       padding:35px;
 
-      box-shadow:0 8px 25px rgba(0,0,0,.08);
+      box-shadow:0 8px 20px rgba(0,0,0,.05);
 
-      border:1px solid #e2e8f0;
     }
 
     .passage h2{
-      margin-bottom:20px;
+
       color:#0f172a;
-      font-size:30px;
+
+      font-size:28px;
+
+      margin-bottom:20px;
+
+      padding-bottom:15px;
+
+      border-bottom:2px solid #94a3b8;
+
     }
 
     .passage p{
+
       color:#334155;
+
       line-height:2;
-      font-size:18px;
+
+      font-size:17px;
+
     }
 
     /* ===== QUESTIONS ===== */
 
     .questions{
+
       display:flex;
+
       flex-direction:column;
+
       gap:25px;
+
     }
 
     .question{
-      background:white;
+
+      background:#f8fafc;
+
+      border:1px solid #94a3b8;
+
       border-radius:25px;
-      padding:35px;
-      border:1px solid #e2e8f0;
-      box-shadow:0 8px 25px rgba(0,0,0,.06);
+
+      padding:30px;
+
+      box-shadow:0 8px 20px rgba(0,0,0,.05);
+
     }
 
     .question h3{
+
       color:#0f172a;
-      font-size:22px;
+
+      font-size:20px;
+
       line-height:1.8;
-      margin-bottom:28px;
+
+      margin-bottom:25px;
+
+      padding-bottom:18px;
+
+      border-bottom:2px solid #94a3b8;
+
     }
 
     /* ===== OPTIONS ===== */
 
     .options{
+
       display:grid;
+
       grid-template-columns:1fr 1fr;
+
       gap:18px;
+
     }
 
     .option{
-      padding:18px 22px;
+
+      padding:18px 20px;
+
       border-radius:16px;
+
       background:white;
+
       border:2px solid #cbd5e1;
+
       cursor:pointer;
+
       transition:.2s;
 
-      color:black;
-      font-size:18px;
+      color:#0f172a;
+
+      font-size:17px;
+
       font-weight:500;
+
     }
 
     .option:hover{
-      background:#eff6ff;
+
       border-color:#2563eb;
+
+      background:#eff6ff;
+
     }
 
     .selected{
+
       background:#dbeafe;
+
       border-color:#2563eb;
+
     }
 
     /* ===== MOBILE ===== */
@@ -218,26 +285,29 @@
     @media(max-width:1000px){
 
       .exam-layout{
+
         grid-template-columns:1fr;
+
       }
 
       .passage{
+
         position:relative;
+
         top:0;
-      }
 
-      .top{
-        flex-direction:column;
-        align-items:flex-start;
-      }
-
-      .top-right{
-        width:100%;
-        justify-content:space-between;
       }
 
       .options{
+
         grid-template-columns:1fr;
+
+      }
+
+      .top-bar{
+
+        justify-content:space-between;
+
       }
 
     }
@@ -248,59 +318,28 @@
 
   <div class="container">
 
-    <!-- TOP -->
+    <!-- TOP BAR -->
 
-    <div class="top">
+    <div class="top-bar">
 
-      <div class="top-left">
+      <div class="timer-box">
 
-        <div class="exam-title">
-          THI ONLINE
+        <div class="timer-label">
+          Thời gian còn lại
         </div>
 
-        <div class="candidate-info">
-
-          <div>
-            Thí sinh:
-            <strong id="studentName"></strong>
-          </div>
-
-          <div>
-            Mã dự thi:
-            <strong id="examCode"></strong>
-          </div>
-
-          <div>
-            Mã đề:
-            <strong id="examID"></strong>
-          </div>
-
+        <div class="timer-number" id="time">
+          50:00
         </div>
 
       </div>
 
-      <div class="top-right">
+      <button class="submit-btn"
+      onclick="submitExam()">
 
-        <div class="timer-box">
+        NỘP BÀI
 
-          <div class="timer-label">
-            Thời gian còn lại
-          </div>
-
-          <div class="timer-number" id="time">
-            50:00
-          </div>
-
-        </div>
-
-        <button class="submit-btn"
-        onclick="submitExam()">
-
-          NộP BÀI
-
-        </button>
-
-      </div>
+      </button>
 
     </div>
 
@@ -308,7 +347,7 @@
 
     <div class="exam-layout">
 
-      <!-- PASSAGE -->
+      <!-- NGỮ LIỆU -->
 
       <div class="passage">
 
@@ -320,20 +359,21 @@
 
           Đây là phần ngữ liệu của đề thi.
 
-          Bạn có thể thay phần này bằng:
+          <br><br>
+
+          Bạn có thể thay nội dung này bằng:
 
           <br><br>
 
-          • Đoạn văn đọc hiểu môn Văn  
-          • Đề tiếng Anh  
+          • Đoạn văn đọc hiểu  
           • Công thức hóa học  
-          • Hình ảnh đề bài  
-          • Nội dung bài đọc dài
+          • Đề tiếng Anh  
+          • Văn bản dài  
+          • Hình ảnh đề bài
 
           <br><br>
 
-          Khung này sẽ luôn cố định bên trái
-          để học sinh tiện theo dõi trong lúc làm bài.
+          Khung này sẽ cố định bên trái để học sinh tiện theo dõi trong quá trình làm bài.
 
         </p>
 
@@ -352,30 +392,21 @@
 
   <script>
 
-    // ===== LẤY THÔNG TIN =====
+    // ===== LẤY DỮ LIỆU =====
 
     let studentName = localStorage.getItem('studentName');
+
     let examCode = localStorage.getItem('examCode');
+
     let examID = localStorage.getItem('examID');
 
     // ===== KIỂM TRA =====
 
     if(!studentName || !examCode || !examID){
 
-      window.location.href = 'index.html';
+      window.location.href='index.html';
 
     }
-
-    // ===== HIỂN THỊ =====
-
-    document.getElementById('studentName')
-    .innerText = studentName;
-
-    document.getElementById('examCode')
-    .innerText = examCode;
-
-    document.getElementById('examID')
-    .innerText = examID;
 
     // ===== DANH SÁCH ĐỀ =====
 
@@ -389,7 +420,7 @@
         },
 
         {
-          question:"Câu 2. Công thức của nước là gì?",
+          question:"Câu 2. Công thức hóa học của nước là?",
           options:["CO2","NaCl","H2O","O2"]
         },
 
@@ -451,7 +482,9 @@
       <div class="question">
 
         <h3>
+
           ${q.question}
+
         </h3>
 
         <div class="options">
@@ -518,6 +551,7 @@
     let timer = setInterval(()=>{
 
       let minutes = Math.floor(totalTime / 60);
+
       let seconds = totalTime % 60;
 
       minutes = minutes < 10
