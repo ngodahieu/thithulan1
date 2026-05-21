@@ -24,6 +24,7 @@
       background:#eef2f7;
       min-height:100vh;
       padding:20px;
+      padding-top:95px;
     }
 
     .container{
@@ -35,26 +36,35 @@
 
     .top-bar{
 
-      position:sticky;
-      top:15px;
+      position:fixed;
+
+      top:12px;
+
+      left:50%;
+
+      transform:translateX(-50%);
+
       z-index:1000;
 
       display:flex;
-      justify-content:flex-end;
-      align-items:center;
-      gap:18px;
 
-      padding:18px 25px;
+      justify-content:center;
+
+      align-items:center;
+
+      gap:14px;
+
+      padding:10px 16px;
 
       background:#f8fafc;
 
       border:1px solid #cbd5e1;
 
-      border-radius:20px;
+      border-radius:16px;
 
-      margin-bottom:25px;
+      box-shadow:0 6px 16px rgba(0,0,0,.08);
 
-      box-shadow:0 8px 20px rgba(0,0,0,.06);
+      width:fit-content;
 
     }
 
@@ -66,29 +76,29 @@
 
       border:1px solid #cbd5e1;
 
-      border-radius:18px;
+      border-radius:14px;
 
-      padding:10px 25px;
+      padding:6px 18px;
 
       text-align:center;
 
-      min-width:160px;
+      min-width:130px;
 
     }
 
     .timer-label{
 
-      font-size:13px;
+      font-size:12px;
 
       color:#64748b;
 
-      margin-bottom:4px;
+      margin-bottom:2px;
 
     }
 
     .timer-number{
 
-      font-size:34px;
+      font-size:26px;
 
       font-weight:800;
 
@@ -100,19 +110,19 @@
 
     .submit-btn{
 
-      height:62px;
+      height:50px;
 
-      padding:0 28px;
+      padding:0 22px;
 
       border:none;
 
-      border-radius:18px;
+      border-radius:14px;
 
       background:#2563eb;
 
       color:white;
 
-      font-size:16px;
+      font-size:14px;
 
       font-weight:700;
 
@@ -150,7 +160,7 @@
 
       position:sticky;
 
-      top:120px;
+      top:110px;
 
       background:#f8fafc;
 
@@ -168,7 +178,7 @@
 
       color:#0f172a;
 
-      font-size:28px;
+      font-size:26px;
 
       margin-bottom:20px;
 
@@ -304,46 +314,38 @@
 
       }
 
-      .top-bar{
-
-        justify-content:space-between;
-
-      }
-
     }
 
   </style>
 </head>
 <body>
 
-  <div class="container">
+  <!-- TOP BAR -->
 
-    <!-- TOP BAR -->
+  <div class="top-bar">
 
-    <div class="top-bar">
+    <div class="timer-box">
 
-      <div class="timer-box">
-
-        <div class="timer-label">
-          Thời gian còn lại
-        </div>
-
-        <div class="timer-number" id="time">
-          50:00
-        </div>
-
+      <div class="timer-label">
+        Thời gian còn lại
       </div>
 
-      <button class="submit-btn"
-      onclick="submitExam()">
-
-        NỘP BÀI
-
-      </button>
+      <div class="timer-number" id="time">
+        50:00
+      </div>
 
     </div>
 
-    <!-- LAYOUT -->
+    <button class="submit-btn"
+    onclick="submitExam()">
+
+      NỘP BÀI
+
+    </button>
+
+  </div>
+
+  <div class="container">
 
     <div class="exam-layout">
 
@@ -366,14 +368,14 @@
           <br><br>
 
           • Đoạn văn đọc hiểu  
-          • Công thức hóa học  
           • Đề tiếng Anh  
+          • Công thức hóa học  
           • Văn bản dài  
           • Hình ảnh đề bài
 
           <br><br>
 
-          Khung này sẽ cố định bên trái để học sinh tiện theo dõi trong quá trình làm bài.
+          Khung này sẽ cố định bên trái để học sinh tiện theo dõi trong lúc làm bài.
 
         </p>
 
