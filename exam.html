@@ -31,10 +31,47 @@
     }
 
     .container{
-      max-width:1200px;
+      max-width:1400px;
       margin:auto;
     }
+    /* LAYOUT */
 
+.exam-layout{
+  display:grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap:25px;
+  align-items:start;
+}
+
+/* NGỮ LIỆU */
+
+.passage{
+  background:white;
+  color:black;
+  border-radius:35px;
+  padding:35px;
+  position:sticky;
+  top:20px;
+  box-shadow:0 20px 40px rgba(0,0,0,.25);
+}
+
+.passage h2{
+  margin-bottom:20px;
+  font-size:30px;
+}
+
+.passage p{
+  font-size:20px;
+  line-height:2;
+}
+
+/* PHẦN CÂU HỎI */
+
+.questions{
+  display:flex;
+  flex-direction:column;
+  gap:25px;
+}
     /* HEADER */
 
     .top{
@@ -88,15 +125,12 @@
     /* QUESTION */
 
     .question{
-      background:rgba(255,255,255,0.08);
-      border:1px solid rgba(255,255,255,0.1);
-      backdrop-filter:blur(15px);
-      border-radius:35px;
-      padding:30px;
-      margin-bottom:25px;
-      box-shadow:0 15px 30px rgba(0,0,0,.25);
-      animation:show .5s ease;
-    }
+  background:white;
+  color:black;
+  border-radius:35px;
+  padding:35px;
+  box-shadow:0 15px 30px rgba(0,0,0,.2);
+}
 
     @keyframes show{
       from{
@@ -111,9 +145,10 @@
     }
 
     .question h3{
-      margin-bottom:25px;
-      font-size:22px;
-      line-height:1.7;
+      margin-bottom:30px;
+      font-size:28px;
+      line-height:1.8;
+      color:black;
     }
 
     .options{
@@ -123,25 +158,27 @@
     }
 
     .option{
-      padding:18px;
-      border-radius:20px;
-      background:rgba(255,255,255,0.06);
-      border:2px solid transparent;
-      cursor:pointer;
-      transition:.25s;
-      font-weight:500;
-    }
+  padding:22px;
+  border-radius:22px;
+  background:#f8fafc;
+  border:2px solid #dbeafe;
+  cursor:pointer;
+  transition:.25s;
+  font-weight:600;
+  font-size:22px;
+  color:black;
+}
 
-    .option:hover{
-      transform:translateY(-2px);
-      background:rgba(255,255,255,0.12);
-    }
+.option:hover{
+  background:#dbeafe;
+  transform:translateY(-2px);
+}
 
-    .selected{
-      border-color:#3b82f6;
-      background:rgba(59,130,246,.2);
-      box-shadow:0 0 15px rgba(59,130,246,.3);
-    }
+.selected{
+  background:#2563eb;
+  color:white;
+  border-color:#2563eb;
+}
 
     /* BUTTON */
 
@@ -175,7 +212,18 @@
       }
 
     }
+    @media(max-width:1000px){
 
+  .exam-layout{
+    grid-template-columns:1fr;
+  }
+
+  .passage{
+    position:relative;
+    top:0;
+  }
+
+}
   </style>
 </head>
 <body>
@@ -231,7 +279,41 @@
 
     <!-- QUESTIONS -->
 
+    <div class="exam-layout">
+
+  <!-- NGỮ LIỆU -->
+
+  <div class="passage">
+
+    <h2>
+      Ngữ Liệu
+    </h2>
+
+    <p>
+
+      Đây là phần ngữ liệu của đề thi.
+      Bạn có thể để đoạn văn dài ở đây,
+      ví dụ bài đọc hiểu môn Văn,
+      tiếng Anh hoặc tài liệu hóa học.
+
+      <br><br>
+
+      Nội dung này sẽ đứng cố định bên trái
+      để học sinh dễ đọc trong lúc làm bài.
+
+    </p>
+
+  </div>
+
+  <!-- CÂU HỎI -->
+
+  <div class="questions">
+
     <div id="examContainer"></div>
+
+  </div>
+
+</div>
 
     <!-- BUTTON -->
 
