@@ -164,33 +164,63 @@
 
     function startExam(){
 
-      let code=document
-      .getElementById('examCode')
-      .value
-      .trim()
-      .toUpperCase();
+  let code = document
+  .getElementById('examCode')
+  .value
+  .trim()
+  .toUpperCase();
 
-      // KIỂM TRA MÃ
+  // DANH SÁCH THÍ SINH
 
-      if(students[code]){
+  const students = {
 
-        localStorage.setItem('examCode',code);
+    "HS001":{
+      name:"Nguyễn Văn An"
+    },
 
-        localStorage.setItem(
-          'studentName',
-          students[code].name
-        );
+    "HS002":{
+      name:"Trần Minh Hiếu"
+    },
 
-        window.location.href='info.html';
+    "HS003":{
+      name:"Lê Gia Hân"
+    },
 
-      }else{
-
-        document.getElementById('error')
-        .style.display='block';
-
-      }
-
+    "HS004":{
+      name:"Phạm Quốc Bảo"
     }
+
+  };
+
+  // KIỂM TRA MÃ
+
+  if(students[code]){
+
+    // LƯU MÃ
+
+    localStorage.setItem(
+      'examCode',
+      code
+    );
+
+    // LƯU TÊN THÍ SINH
+
+    localStorage.setItem(
+      'studentName',
+      students[code].name
+    );
+
+    // CHUYỂN TRANG
+
+    window.location.href='info.html';
+
+  }else{
+
+    alert('Mã dự thi không hợp lệ!');
+
+  }
+
+}
 
   </script>
 
