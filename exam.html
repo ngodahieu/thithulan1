@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Bài Thi</title>
+
+  <link rel="icon" href="data:,">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
+    }
+
+    body{
+      background:
+      radial-gradient(circle at top left,#2563eb55,transparent 30%),
+      radial-gradient(circle at bottom right,#10b98155,transparent 30%),
+      linear-gradient(135deg,#020617,#0f172a,#111827);
+      min-height:100vh;
+      padding:30px;
+      color:white;
+    }
+
+    .container{
+      max-width:1200px;
+      margin:auto;
+    }
+
+    /* HEADER */
+
+    .top{
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.1);
+      backdrop-filter:blur(15px);
+      border-radius:35px;
+      padding:30px;
+      margin-bottom:25px;
+      box-shadow:0 20px 40px rgba(0,0,0,.3);
+    }
+
+    .top-flex{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .title{
+      font-size:38px;
+      font-weight:800;
+      margin-bottom:10px;
+    }
+
+    .info{
+      color:#cbd5e1;
+      line-height:1.8;
+    }
+
+    .timer{
+      min-width:170px;
+      height:90px;
+      border-radius:25px;
+      background:linear-gradient(135deg,#2563eb,#3b82f6);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      box-shadow:0 10px 30px rgba(37,99,235,.4);
+    }
+
+    .timer span{
+      font-size:14px;
+    }
+
+    .timer h2{
+      font-size:35px;
+    }
+
+    /* QUESTION */
+
+    .question{
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.1);
+      backdrop-filter:blur(15px);
+      border-radius:35px;
+      padding:30px;
+      margin-bottom:25px;
+      box-shadow:0 15px 30px rgba(0,0,0,.25);
+      animation:show .5s ease;
+    }
+
+    @keyframes show{
+      from{
+        opacity:0;
+        transform:translateY(20px);
+      }
+
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    .question h3{
+      margin-bottom:25px;
+      font-size:22px;
+      line-height:1.7;
+    }
+
+    .options{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    .option{
+      padding:18px;
+      border-radius:20px;
+      background:rgba(255,255,255,0.06);
+      border:2px solid transparent;
+      cursor:pointer;
+      transition:.25s;
+      font-weight:500;
+    }
+
+    .option:hover{
+      transform:translateY(-2px);
+      background:rgba(255,255,255,0.12);
+    }
+
+    .selected{
+      border-color:#3b82f6;
+      background:rgba(59,130,246,.2);
+      box-shadow:0 0 15px rgba(59,130,246,.3);
+    }
+
+    /* BUTTON */
+
+    .submit-btn{
+      width:100%;
+      padding:20px;
+      border:none;
+      border-radius:22px;
+      background:linear-gradient(135deg,#10b981,#34d399);
+      color:white;
+      font-size:17px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.3s;
+      margin-top:10px;
+    }
+
+    .submit-btn:hover{
+      transform:translateY(-3px);
+      box-shadow:0 12px 25px rgba(16,185,129,.4);
+    }
+
+    @media(max-width:768px){
+
+      .options{
+        grid-template-columns:1fr;
+      }
+
+      .title{
+        font-size:30px;
+      }
+
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- HEADER -->
+
+    <div class="top">
+
+      <div class="top-flex">
+
+        <div>
+
+          <div class="title">
+            Bài Thi Online
+          </div>
+
+          <div class="info">
+
+            <div>
+              Thí sinh:
+              <strong id="studentName"></strong>
+            </div>
+
+            <div>
+              Mã dự thi:
+              <strong id="examCode"></strong>
+            </div>
+
+            <div>
+              Mã đề:
+              <strong id="examID"></strong>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="timer">
+
+          <span>Thời gian còn lại</span>
+
+          <h2 id="time">
+            50:00
+          </h2>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- QUESTIONS -->
+
+    <div id="examContainer"></div>
+
+    <!-- BUTTON -->
+
+    <button class="submit-btn" onclick="submitExam()">
+      NỘP BÀI
+    </button>
+
+  </div>
+
+  <script>
+
+    // LẤY DỮ LIỆU
+
+    let studentName = localStorage.getItem('studentName');
+    let examCode = localStorage.getItem('examCode');
+    let examID = localStorage.getItem('examID');
+
+    // KIỂM TRA
+
+    if(!studentName || !examCode || !examID){
+
+      window.location.href = 'index.html';
+
+    }
+
+    // HIỂN THỊ THÔNG TIN
+
+    document.getElementById('studentName')
+    .innerText = studentName;
+
+    document.getElementById('examCode')
+    .innerText = examCode;
+
+    document.getElementById('examID')
+    .innerText = examID;
+
+    // DANH SÁCH ĐỀ
+
+    const exams = {
+
+      "0304":[
+
+        {
+          question:"Câu 1. Chất nào là axit?",
+          options:["NaOH","HCl","NaCl","KNO3"]
+        },
+
+        {
+          question:"Câu 2. 2 + 5 = ?",
+          options:["5","6","7","8"]
+        },
+
+        {
+          question:"Câu 3. Công thức nước là?",
+          options:["CO2","NaCl","H2O","O2"]
+        }
+
+      ],
+
+      "0302":[
+
+        {
+          question:"Câu 1. Thủ đô Việt Nam là?",
+          options:["Huế","Đà Nẵng","Hà Nội","Cần Thơ"]
+        },
+
+        {
+          question:"Câu 2. 10 x 5 = ?",
+          options:["20","30","40","50"]
+        },
+
+        {
+          question:"Câu 3. Kim loại dẫn điện tốt?",
+          options:["Nhựa","Gỗ","Đồng","Giấy"]
+        }
+
+      ],
+
+      "0301":[
+
+        {
+          question:"Câu 1. H2SO4 là?",
+          options:["Bazơ","Muối","Axit","Nước"]
+        },
+
+        {
+          question:"Câu 2. 12 : 3 = ?",
+          options:["2","3","4","5"]
+        },
+
+        {
+          question:"Câu 3. Khí cần cho hô hấp?",
+          options:["CO2","O2","H2","N2"]
+        }
+
+      ]
+
+    };
+
+    // LOAD ĐỀ
+
+    let html = "";
+
+    exams[examID].forEach((q,index)=>{
+
+      html += `
+
+      <div class="question">
+
+        <h3>
+          ${q.question}
+        </h3>
+
+        <div class="options">
+
+          ${q.options.map(option => `
+
+            <div class="option"
+            onclick="selectOption(this)">
+
+              ${option}
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+      `;
+
+    });
+
+    document.getElementById('examContainer')
+    .innerHTML = html;
+
+    // CHỌN ĐÁP ÁN
+
+    function selectOption(element){
+
+      let parent = element.parentElement;
+
+      parent.querySelectorAll('.option')
+      .forEach(opt=>{
+
+        opt.classList.remove('selected');
+
+      });
+
+      element.classList.add('selected');
+
+    }
+
+    // NỘP BÀI
+
+    function submitExam(){
+
+      alert(
+        'Nộp bài thành công!'
+      );
+
+    }
+
+    // TIMER
+
+    let totalTime = 50 * 60;
+
+    let timer = setInterval(()=>{
+
+      let minutes = Math.floor(totalTime / 60);
+      let seconds = totalTime % 60;
+
+      minutes = minutes < 10 ? "0"+minutes : minutes;
+      seconds = seconds < 10 ? "0"+seconds : seconds;
+
+      document.getElementById('time')
+      .innerText = `${minutes}:${seconds}`;
+
+      totalTime--;
+
+      if(totalTime < 0){
+
+        clearInterval(timer);
+
+        alert('Hết thời gian làm bài!');
+
+      }
+
+    },1000);
+
+  </script>
+
+</body>
+</html>
