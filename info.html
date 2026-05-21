@@ -136,22 +136,35 @@
 
   <script>
 
-    let name=localStorage.getItem('studentName');
-    let code=localStorage.getItem('examCode');
+  // Lấy dữ liệu từ localStorage
 
-    document.getElementById('studentName')
-    .innerText=name;
+  let name = localStorage.getItem('studentName');
+  let code = localStorage.getItem('examCode');
 
-    document.getElementById('examCode')
-    .innerText=code;
+  // Nếu chưa có mã thì quay lại trang chủ
 
-    function goExam(){
+  if(!code || !name){
 
-      window.location.href='exam.html';
+    window.location.href = 'index.html';
 
-    }
+  }
 
-  </script>
+  // Hiển thị thông tin thí sinh
+
+  document.getElementById('studentName').innerText = name;
+
+  document.getElementById('examCode').innerText = code;
+
+
+  // Chuyển sang trang làm bài
+
+  function goExam(){
+
+    window.location.href = 'exam.html';
+
+  }
+
+</script>
 
 </body>
 </html>
