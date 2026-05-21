@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Hệ Thống Thi Online</title>
+  <title>Thi Online</title>
 
   <link rel="icon" href="data:,">
 
@@ -22,79 +22,15 @@
 
     body{
       min-height:100vh;
-      overflow:hidden;
       display:flex;
-      justify-content:center;
       align-items:center;
+      justify-content:center;
+      overflow:hidden;
       background:
       radial-gradient(circle at top left,#2563eb55,transparent 30%),
       radial-gradient(circle at bottom right,#10b98155,transparent 30%),
       linear-gradient(135deg,#020617,#0f172a,#111827);
-      position:relative;
     }
-
-    /* BACKGROUND */
-
-    .bg-animation span{
-      position:absolute;
-      border-radius:50%;
-      background:rgba(255,255,255,0.05);
-      animation:float 12s linear infinite;
-      bottom:-150px;
-    }
-
-    .bg-animation span:nth-child(1){
-      width:80px;
-      height:80px;
-      left:10%;
-      animation-duration:10s;
-    }
-
-    .bg-animation span:nth-child(2){
-      width:120px;
-      height:120px;
-      left:30%;
-      animation-duration:14s;
-    }
-
-    .bg-animation span:nth-child(3){
-      width:60px;
-      height:60px;
-      left:50%;
-      animation-duration:9s;
-    }
-
-    .bg-animation span:nth-child(4){
-      width:150px;
-      height:150px;
-      left:70%;
-      animation-duration:18s;
-    }
-
-    .bg-animation span:nth-child(5){
-      width:90px;
-      height:90px;
-      left:90%;
-      animation-duration:13s;
-    }
-
-    @keyframes float{
-      0%{
-        transform:translateY(0) rotate(0deg);
-        opacity:0;
-      }
-
-      10%{
-        opacity:1;
-      }
-
-      100%{
-        transform:translateY(-120vh) rotate(360deg);
-        opacity:0;
-      }
-    }
-
-    /* CARD */
 
     .card{
       width:100%;
@@ -102,91 +38,57 @@
       padding:50px;
       border-radius:35px;
       background:rgba(255,255,255,0.08);
-      border:1px solid rgba(255,255,255,0.12);
-      backdrop-filter:blur(18px);
-      box-shadow:
-      0 25px 50px rgba(0,0,0,0.4),
-      inset 0 0 20px rgba(255,255,255,0.05);
-      position:relative;
-      z-index:10;
-      animation:show .6s ease;
-    }
-
-    @keyframes show{
-      from{
-        opacity:0;
-        transform:translateY(25px);
-      }
-      to{
-        opacity:1;
-        transform:translateY(0);
-      }
+      border:1px solid rgba(255,255,255,0.1);
+      backdrop-filter:blur(15px);
+      color:white;
+      box-shadow:0 20px 40px rgba(0,0,0,.4);
     }
 
     .logo{
       width:90px;
       height:90px;
+      border-radius:25px;
       margin:auto;
       margin-bottom:25px;
-      border-radius:25px;
-      background:linear-gradient(135deg,#2563eb,#10b981);
       display:flex;
       align-items:center;
       justify-content:center;
       font-size:40px;
-      box-shadow:0 10px 30px rgba(37,99,235,.5);
+      background:linear-gradient(135deg,#2563eb,#10b981);
     }
 
     h1{
       text-align:center;
-      font-size:42px;
-      margin-bottom:12px;
-      font-weight:800;
-      color:white;
+      font-size:40px;
+      margin-bottom:10px;
     }
 
-    .subtitle{
+    p{
       text-align:center;
       color:#cbd5e1;
+      margin-bottom:30px;
       line-height:1.7;
-      margin-bottom:35px;
     }
 
-    .input-group{
-      margin-bottom:25px;
-    }
-
-    .input-group label{
+    label{
       display:block;
       margin-bottom:10px;
-      color:#e2e8f0;
-      font-size:15px;
     }
 
     input{
       width:100%;
       padding:18px;
+      border:none;
+      outline:none;
       border-radius:18px;
-      border:1px solid rgba(255,255,255,0.1);
       background:rgba(255,255,255,0.08);
       color:white;
-      outline:none;
       font-size:15px;
-      transition:.25s;
-    }
-
-    input::placeholder{
-      color:#94a3b8;
-    }
-
-    input:focus{
-      border-color:#3b82f6;
-      background:rgba(255,255,255,0.12);
-      box-shadow:0 0 15px rgba(59,130,246,.4);
     }
 
     button{
       width:100%;
+      margin-top:25px;
       padding:18px;
       border:none;
       border-radius:18px;
@@ -195,49 +97,23 @@
       font-size:16px;
       font-weight:700;
       cursor:pointer;
-      transition:.3s;
-      letter-spacing:.5px;
+      transition:.25s;
     }
 
     button:hover{
-      transform:translateY(-3px);
-      box-shadow:0 12px 25px rgba(37,99,235,.5);
+      transform:translateY(-2px);
     }
 
-    .footer{
-      margin-top:25px;
+    .error{
+      margin-top:15px;
+      color:#f87171;
       text-align:center;
-      color:#94a3b8;
-      font-size:14px;
-    }
-
-    @media(max-width:600px){
-
-      .card{
-        padding:35px 25px;
-      }
-
-      h1{
-        font-size:32px;
-      }
-
+      display:none;
     }
 
   </style>
 </head>
 <body>
-
-  <!-- BACKGROUND -->
-
-  <div class="bg-animation">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-
-  <!-- CARD -->
 
   <div class="card">
 
@@ -247,43 +123,78 @@
 
     <h1>Thi Online</h1>
 
-    <p class="subtitle">
-      Hệ thống làm bài kiểm tra trực tuyến dành cho học sinh.
-      Nhập mã dự thi để bắt đầu.
+    <p>
+      Nhập đúng mã dự thi được cấp để bắt đầu làm bài.
     </p>
 
-    <div class="input-group">
+    <label>Mã dự thi</label>
 
-      <label>Mã dự thi</label>
-
-      <input type="text" id="examCode" placeholder="Ví dụ: KT12-2026">
-
-    </div>
+    <input type="text" id="examCode" placeholder="Nhập mã dự thi">
 
     <button onclick="startExam()">
-      BẮT ĐẦU LÀM BÀI
+      BẮT ĐẦU
     </button>
 
-    <div class="footer">
-      Hệ thống kiểm tra trực tuyến
+    <div class="error" id="error">
+      Mã dự thi không hợp lệ!
     </div>
 
   </div>
 
   <script>
 
-    function startExam(){
+    // DANH SÁCH THÍ SINH
 
-      let code=document.getElementById('examCode').value;
+    const students = {
 
-      if(code.trim()===''){
-        alert('Vui lòng nhập mã dự thi');
-        return;
+      "HS001":{
+        name:"Nguyễn Văn An"
+      },
+
+      "HS002":{
+        name:"Trần Minh Hiếu"
+      },
+
+      "HS003":{
+        name:"Lê Gia Hân"
+      },
+
+      "HS004":{
+        name:"Phạm Quốc Bảo"
       }
 
-      localStorage.setItem('examCode',code);
+    };
 
-      window.location.href='info.html';
+
+
+    function startExam(){
+
+      let code=document
+      .getElementById('examCode')
+      .value
+      .trim()
+      .toUpperCase();
+
+      // KIỂM TRA MÃ
+
+      if(students[code]){
+
+        localStorage.setItem('examCode',code);
+
+        localStorage.setItem(
+          'studentName',
+          students[code].name
+        );
+
+        window.location.href='info.html';
+
+      }else{
+
+        document.getElementById('error')
+        .style.display='block';
+
+      }
+
     }
 
   </script>
