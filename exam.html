@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Bài Thi</title>
+  <title>Làm Bài Thi</title>
 
   <link rel="icon" href="data:,">
 
@@ -21,135 +21,168 @@
     }
 
     body{
-      background:
-      radial-gradient(circle at top left,#2563eb55,transparent 30%),
-      radial-gradient(circle at bottom right,#10b98155,transparent 30%),
-      linear-gradient(135deg,#020617,#0f172a,#111827);
+      background:#f1f5f9;
       min-height:100vh;
-      padding:30px;
-      color:white;
+      padding:20px;
     }
 
     .container{
-      max-width:1400px;
+      max-width:1500px;
       margin:auto;
     }
-    /* LAYOUT */
 
-.exam-layout{
-  display:grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap:25px;
-  align-items:start;
-}
-
-/* NGỮ LIỆU */
-
-.passage{
-  background:white;
-  color:black;
-  border-radius:35px;
-  padding:35px;
-  position:sticky;
-  top:20px;
-  box-shadow:0 20px 40px rgba(0,0,0,.25);
-}
-
-.passage h2{
-  margin-bottom:20px;
-  font-size:30px;
-}
-
-.passage p{
-  font-size:20px;
-  line-height:2;
-}
-
-/* PHẦN CÂU HỎI */
-
-.questions{
-  display:flex;
-  flex-direction:column;
-  gap:25px;
-}
-    /* HEADER */
+    /* ===== TOP BAR ===== */
 
     .top{
-      background:rgba(255,255,255,0.08);
-      border:1px solid rgba(255,255,255,0.1);
-      backdrop-filter:blur(15px);
-      border-radius:35px;
-      padding:30px;
-      margin-bottom:25px;
-      box-shadow:0 20px 40px rgba(0,0,0,.3);
-    }
+      position:sticky;
+      top:15px;
+      z-index:1000;
 
-    .top-flex{
       display:flex;
       justify-content:space-between;
+      align-items:center;
       gap:20px;
-      flex-wrap:wrap;
-    }
 
-    .title{
-      font-size:38px;
-      font-weight:800;
-      margin-bottom:10px;
-    }
+      padding:22px 30px;
 
-    .info{
-      color:#cbd5e1;
-      line-height:1.8;
-    }
-
-    .timer{
-      min-width:170px;
-      height:90px;
       border-radius:25px;
-      background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+      background:#0f172a;
+
+      box-shadow:0 10px 25px rgba(0,0,0,.15);
+
+      margin-bottom:25px;
+    }
+
+    .top-left{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      color:white;
+    }
+
+    .exam-title{
+      font-size:30px;
+      font-weight:800;
+      letter-spacing:1px;
+    }
+
+    .candidate-info{
+      line-height:1.9;
+      color:#cbd5e1;
+      font-size:15px;
+    }
+
+    .top-right{
       display:flex;
       align-items:center;
-      justify-content:center;
+      gap:18px;
+    }
+
+    /* ===== TIMER ===== */
+
+    .timer-box{
+      background:white;
+      border-radius:20px;
+      padding:12px 25px;
+      text-align:center;
+      min-width:160px;
+    }
+
+    .timer-label{
+      font-size:13px;
+      color:#64748b;
+      margin-bottom:4px;
+    }
+
+    .timer-number{
+      font-size:36px;
+      font-weight:800;
+      color:#dc2626;
+    }
+
+    /* ===== BUTTON ===== */
+
+    .submit-btn{
+      height:65px;
+      padding:0 30px;
+      border:none;
+      border-radius:20px;
+      background:#2563eb;
+      color:white;
+      font-size:17px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.25s;
+    }
+
+    .submit-btn:hover{
+      background:#1d4ed8;
+      transform:translateY(-2px);
+    }
+
+    /* ===== LAYOUT ===== */
+
+    .exam-layout{
+      display:grid;
+      grid-template-columns:1fr 1.4fr;
+      gap:25px;
+      align-items:start;
+    }
+
+    /* ===== PASSAGE ===== */
+
+    .passage{
+      position:sticky;
+      top:130px;
+
+      background:white;
+
+      border-radius:25px;
+
+      padding:35px;
+
+      box-shadow:0 8px 25px rgba(0,0,0,.08);
+
+      border:1px solid #e2e8f0;
+    }
+
+    .passage h2{
+      margin-bottom:20px;
+      color:#0f172a;
+      font-size:30px;
+    }
+
+    .passage p{
+      color:#334155;
+      line-height:2;
+      font-size:18px;
+    }
+
+    /* ===== QUESTIONS ===== */
+
+    .questions{
+      display:flex;
       flex-direction:column;
-      box-shadow:0 10px 30px rgba(37,99,235,.4);
+      gap:25px;
     }
-
-    .timer span{
-      font-size:14px;
-    }
-
-    .timer h2{
-      font-size:35px;
-    }
-
-    /* QUESTION */
 
     .question{
-  background:white;
-  color:black;
-  border-radius:35px;
-  padding:35px;
-  box-shadow:0 15px 30px rgba(0,0,0,.2);
-}
-
-    @keyframes show{
-      from{
-        opacity:0;
-        transform:translateY(20px);
-      }
-
-      to{
-        opacity:1;
-        transform:translateY(0);
-      }
+      background:white;
+      border-radius:25px;
+      padding:35px;
+      border:1px solid #e2e8f0;
+      box-shadow:0 8px 25px rgba(0,0,0,.06);
     }
 
     .question h3{
-      margin-bottom:30px;
-      font-size:20px;
+      color:#0f172a;
+      font-size:22px;
       line-height:1.8;
-      color:black;
+      margin-bottom:28px;
     }
+
+    /* ===== OPTIONS ===== */
 
     .options{
       display:grid;
@@ -158,180 +191,174 @@
     }
 
     .option{
-  padding:22px;
-  border-radius:22px;
-  background:#f8fafc;
-  border:2px solid #dbeafe;
-  cursor:pointer;
-  transition:.25s;
-  font-weight:600;
-  font-size:22px;
-  color:black;
-}
-
-.option:hover{
-  background:#dbeafe;
-  transform:translateY(-2px);
-}
-
-.selected{
-  background:#2563eb;
-  color:white;
-  border-color:#2563eb;
-}
-
-    /* BUTTON */
-
-    .submit-btn{
-      width:100%;
-      padding:20px;
-      border:none;
-      border-radius:22px;
-      background:linear-gradient(135deg,#10b981,#34d399);
-      color:white;
-      font-size:17px;
-      font-weight:700;
+      padding:18px 22px;
+      border-radius:16px;
+      background:white;
+      border:2px solid #cbd5e1;
       cursor:pointer;
-      transition:.3s;
-      margin-top:10px;
+      transition:.2s;
+
+      color:black;
+      font-size:18px;
+      font-weight:500;
     }
 
-    .submit-btn:hover{
-      transform:translateY(-3px);
-      box-shadow:0 12px 25px rgba(16,185,129,.4);
+    .option:hover{
+      background:#eff6ff;
+      border-color:#2563eb;
     }
 
-    @media(max-width:768px){
+    .selected{
+      background:#dbeafe;
+      border-color:#2563eb;
+    }
+
+    /* ===== MOBILE ===== */
+
+    @media(max-width:1000px){
+
+      .exam-layout{
+        grid-template-columns:1fr;
+      }
+
+      .passage{
+        position:relative;
+        top:0;
+      }
+
+      .top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .top-right{
+        width:100%;
+        justify-content:space-between;
+      }
 
       .options{
         grid-template-columns:1fr;
       }
 
-      .title{
-        font-size:30px;
-      }
-
     }
-    @media(max-width:1000px){
 
-  .exam-layout{
-    grid-template-columns:1fr;
-  }
-
-  .passage{
-    position:relative;
-    top:0;
-  }
-
-}
   </style>
 </head>
 <body>
 
   <div class="container">
 
-    <!-- HEADER -->
+    <!-- TOP -->
 
     <div class="top">
 
-      <div class="top-flex">
+      <div class="top-left">
 
-        <div>
-
-          <div class="title">
-            Bài Thi Online
-          </div>
-
-          <div class="info">
-
-            <div>
-              Thí sinh:
-              <strong id="studentName"></strong>
-            </div>
-
-            <div>
-              Mã dự thi:
-              <strong id="examCode"></strong>
-            </div>
-
-            <div>
-              Mã đề:
-              <strong id="examID"></strong>
-            </div>
-
-          </div>
-
+        <div class="exam-title">
+          THI ONLINE
         </div>
 
-        <div class="timer">
+        <div class="candidate-info">
 
-          <span>Thời gian còn lại</span>
+          <div>
+            Thí sinh:
+            <strong id="studentName"></strong>
+          </div>
 
-          <h2 id="time">
-            50:00
-          </h2>
+          <div>
+            Mã dự thi:
+            <strong id="examCode"></strong>
+          </div>
+
+          <div>
+            Mã đề:
+            <strong id="examID"></strong>
+          </div>
 
         </div>
 
       </div>
 
+      <div class="top-right">
+
+        <div class="timer-box">
+
+          <div class="timer-label">
+            Thời gian còn lại
+          </div>
+
+          <div class="timer-number" id="time">
+            50:00
+          </div>
+
+        </div>
+
+        <button class="submit-btn"
+        onclick="submitExam()">
+
+          NộP BÀI
+
+        </button>
+
+      </div>
+
     </div>
 
-    <!-- QUESTIONS -->
+    <!-- LAYOUT -->
 
     <div class="exam-layout">
 
-  <!-- NGỮ LIỆU -->
+      <!-- PASSAGE -->
 
-  <div class="passage">
+      <div class="passage">
 
-    <h2>
-      Ngữ Liệu
-    </h2>
+        <h2>
+          Ngữ Liệu
+        </h2>
 
-    <p>
+        <p>
 
-      Đây là phần ngữ liệu của đề thi.
-      Bạn có thể để đoạn văn dài ở đây,
-      ví dụ bài đọc hiểu môn Văn,
-      tiếng Anh hoặc tài liệu hóa học.
+          Đây là phần ngữ liệu của đề thi.
 
-      <br><br>
+          Bạn có thể thay phần này bằng:
 
-      Nội dung này sẽ đứng cố định bên trái
-      để học sinh dễ đọc trong lúc làm bài.
+          <br><br>
 
-    </p>
+          • Đoạn văn đọc hiểu môn Văn  
+          • Đề tiếng Anh  
+          • Công thức hóa học  
+          • Hình ảnh đề bài  
+          • Nội dung bài đọc dài
 
-  </div>
+          <br><br>
 
-  <!-- CÂU HỎI -->
+          Khung này sẽ luôn cố định bên trái
+          để học sinh tiện theo dõi trong lúc làm bài.
 
-  <div class="questions">
+        </p>
 
-    <div id="examContainer"></div>
+      </div>
 
-  </div>
+      <!-- QUESTIONS -->
 
-</div>
+      <div class="questions"
+      id="examContainer">
 
-    <!-- BUTTON -->
+      </div>
 
-    <button class="submit-btn" onclick="submitExam()">
-      NỘP BÀI
-    </button>
+    </div>
 
   </div>
 
   <script>
 
-    // LẤY DỮ LIỆU
+    // ===== LẤY THÔNG TIN =====
 
     let studentName = localStorage.getItem('studentName');
     let examCode = localStorage.getItem('examCode');
     let examID = localStorage.getItem('examID');
 
-    // KIỂM TRA
+    // ===== KIỂM TRA =====
 
     if(!studentName || !examCode || !examID){
 
@@ -339,7 +366,7 @@
 
     }
 
-    // HIỂN THỊ THÔNG TIN
+    // ===== HIỂN THỊ =====
 
     document.getElementById('studentName')
     .innerText = studentName;
@@ -350,25 +377,25 @@
     document.getElementById('examID')
     .innerText = examID;
 
-    // DANH SÁCH ĐỀ
+    // ===== DANH SÁCH ĐỀ =====
 
     const exams = {
 
       "0304":[
 
         {
-          question:"Câu 1. Chất nào là axit?",
-          options:["NaOH","HCl","NaCl","KNO3"]
+          question:"Câu 1. Chất nào là axit mạnh?",
+          options:["NaOH","HCl","NaCl","KOH"]
         },
 
         {
-          question:"Câu 2. 2 + 5 = ?",
-          options:["5","6","7","8"]
-        },
-
-        {
-          question:"Câu 3. Công thức nước là?",
+          question:"Câu 2. Công thức của nước là gì?",
           options:["CO2","NaCl","H2O","O2"]
+        },
+
+        {
+          question:"Câu 3. 2 + 5 bằng bao nhiêu?",
+          options:["5","6","7","8"]
         }
 
       ],
@@ -376,12 +403,12 @@
       "0302":[
 
         {
-          question:"Câu 1. Thủ đô Việt Nam là?",
+          question:"Câu 1. Thủ đô của Việt Nam là?",
           options:["Huế","Đà Nẵng","Hà Nội","Cần Thơ"]
         },
 
         {
-          question:"Câu 2. 10 x 5 = ?",
+          question:"Câu 2. 10 × 5 bằng?",
           options:["20","30","40","50"]
         },
 
@@ -395,17 +422,17 @@
       "0301":[
 
         {
-          question:"Câu 1. H2SO4 là?",
+          question:"Câu 1. H2SO4 là chất gì?",
           options:["Bazơ","Muối","Axit","Nước"]
         },
 
         {
-          question:"Câu 2. 12 : 3 = ?",
+          question:"Câu 2. 12 : 3 bằng?",
           options:["2","3","4","5"]
         },
 
         {
-          question:"Câu 3. Khí cần cho hô hấp?",
+          question:"Câu 3. Khí cần cho hô hấp là?",
           options:["CO2","O2","H2","N2"]
         }
 
@@ -413,7 +440,7 @@
 
     };
 
-    // LOAD ĐỀ
+    // ===== LOAD ĐỀ =====
 
     let html = "";
 
@@ -451,7 +478,7 @@
     document.getElementById('examContainer')
     .innerHTML = html;
 
-    // CHỌN ĐÁP ÁN
+    // ===== CHỌN ĐÁP ÁN =====
 
     function selectOption(element){
 
@@ -468,17 +495,23 @@
 
     }
 
-    // NỘP BÀI
+    // ===== NỘP BÀI =====
 
     function submitExam(){
 
-      alert(
-        'Nộp bài thành công!'
+      let confirmSubmit = confirm(
+        'Bạn có chắc muốn nộp bài?'
       );
+
+      if(confirmSubmit){
+
+        alert('Nộp bài thành công!');
+
+      }
 
     }
 
-    // TIMER
+    // ===== TIMER =====
 
     let totalTime = 50 * 60;
 
@@ -487,8 +520,13 @@
       let minutes = Math.floor(totalTime / 60);
       let seconds = totalTime % 60;
 
-      minutes = minutes < 10 ? "0"+minutes : minutes;
-      seconds = seconds < 10 ? "0"+seconds : seconds;
+      minutes = minutes < 10
+      ? "0"+minutes
+      : minutes;
+
+      seconds = seconds < 10
+      ? "0"+seconds
+      : seconds;
 
       document.getElementById('time')
       .innerText = `${minutes}:${seconds}`;
@@ -499,7 +537,7 @@
 
         clearInterval(timer);
 
-        alert('Hết thời gian làm bài!');
+        alert('Đã hết thời gian làm bài!');
 
       }
 
