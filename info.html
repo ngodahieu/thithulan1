@@ -22,10 +22,13 @@
 
     body{
       min-height:100vh;
-      background:linear-gradient(135deg,#020617,#0f172a,#1e293b);
       display:flex;
       align-items:center;
       justify-content:center;
+      background:
+      radial-gradient(circle at top left,#2563eb55,transparent 30%),
+      radial-gradient(circle at bottom right,#10b98155,transparent 30%),
+      linear-gradient(135deg,#020617,#0f172a,#111827);
       padding:20px;
       color:white;
     }
@@ -42,7 +45,7 @@
       padding:35px;
       border-radius:35px;
       background:rgba(255,255,255,0.08);
-      border:1px solid rgba(255,255,255,0.12);
+      border:1px solid rgba(255,255,255,0.1);
       backdrop-filter:blur(15px);
     }
 
@@ -52,47 +55,25 @@
     }
 
     .info{
-      background:rgba(255,255,255,0.06);
       padding:15px;
       border-radius:18px;
+      background:rgba(255,255,255,0.06);
       margin-top:15px;
       display:flex;
       justify-content:space-between;
     }
 
-    input{
+    button{
       width:100%;
+      margin-top:25px;
       padding:16px;
       border:none;
-      outline:none;
       border-radius:18px;
-      background:rgba(255,255,255,0.08);
-      color:white;
-      margin-top:20px;
-    }
-
-    .buttons{
-      display:flex;
-      gap:15px;
-      margin-top:25px;
-    }
-
-    button{
-      flex:1;
-      padding:15px;
-      border:none;
-      border-radius:18px;
-      color:white;
-      font-weight:600;
-      cursor:pointer;
-    }
-
-    .back{
-      background:rgba(255,255,255,0.08);
-    }
-
-    .next{
       background:linear-gradient(135deg,#10b981,#34d399);
+      color:white;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
     }
 
     @media(max-width:768px){
@@ -128,11 +109,6 @@
         <strong>60 phút</strong>
       </div>
 
-      <div class="info">
-        <span>Mã dự thi</span>
-        <strong id="showCode"></strong>
-      </div>
-
     </div>
 
 
@@ -140,19 +116,19 @@
 
       <h2>Thông Tin Thí Sinh</h2>
 
-      <input type="text" id="studentName" placeholder="Nhập họ và tên">
-
-      <div class="buttons">
-
-        <button class="back" onclick="goBack()">
-          Quay Lại
-        </button>
-
-        <button class="next" onclick="goExam()">
-          Vào Làm Bài
-        </button>
-
+      <div class="info">
+        <span>Họ và tên</span>
+        <strong id="studentName"></strong>
       </div>
+
+      <div class="info">
+        <span>Mã dự thi</span>
+        <strong id="examCode"></strong>
+      </div>
+
+      <button onclick="goExam()">
+        Vào Làm Bài
+      </button>
 
     </div>
 
@@ -160,26 +136,19 @@
 
   <script>
 
+    let name=localStorage.getItem('studentName');
     let code=localStorage.getItem('examCode');
 
-    document.getElementById('showCode').innerText=code;
+    document.getElementById('studentName')
+    .innerText=name;
 
-    function goBack(){
-      window.location.href='index.html';
-    }
+    document.getElementById('examCode')
+    .innerText=code;
 
     function goExam(){
 
-      let name=document.getElementById('studentName').value;
-
-      if(name.trim()===''){
-        alert('Vui lòng nhập họ tên');
-        return;
-      }
-
-      localStorage.setItem('studentName',name);
-
       window.location.href='exam.html';
+
     }
 
   </script>
