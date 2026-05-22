@@ -1,0 +1,84 @@
+function submitExam(){
+
+  let score = 0;
+
+  let total = 0;
+
+  let results = [];
+
+  document.querySelectorAll('.question')
+  .forEach(question=>{
+
+    let optionsBox = question.querySelector('.options');
+
+    if(optionsBox){
+
+      total++;
+
+      let selected =
+      optionsBox.querySelector('.selected');
+
+      let correctOption =
+      optionsBox.querySelector(
+        '[data-correct="true"]'
+      );
+
+      let selectedText =
+      selected
+      ? selected.innerText
+      : "Chưa chọn";
+
+      let correctText =
+      correctOption
+      ? correctOption.innerText
+      : "";
+
+      let isCorrect =
+      selected &&
+      selected.dataset.correct==="true";
+
+      if(isCorrect){
+
+        score++;
+
+      }
+
+      results.push({
+
+        question:
+        question.querySelector('h3').innerText,
+
+        selected:selectedText,
+
+        correct:correctText,
+
+        status:isCorrect
+
+      });
+
+    }
+
+  });
+
+  // LƯU ĐIỂM
+
+  localStorage.setItem(
+    'score',
+    score
+  );
+
+  localStorage.setItem(
+    'total',
+    total
+  );
+
+  localStorage.setItem(
+    'results',
+    JSON.stringify(results)
+  );
+
+  // CHUYỂN TRANG
+
+  window.location.href='result.html';
+
+}
