@@ -512,7 +512,8 @@ cực chuẩn của hai cặp oxi hóa – khử lần lượt là - 0,76 V và 
 
       {
         question:`Câu 3. Công thức hóa học của nước là?`,
-        options:["CO2","NaCl","H2O","O2"]
+        options:["CO2","NaCl","H2O","O2"],
+        correct:"H2O"
       }
     ],
 
@@ -636,6 +637,9 @@ ${q.question}
 
 `;
 
+
+if(q.statements){
+
 q.statements.forEach((s,i)=>{
 
 html += `
@@ -667,7 +671,7 @@ Sai
 
 `;
 
-});
+});}
 
 html += `</div>`;
 
@@ -895,6 +899,7 @@ function submitExam(){
         clearInterval(timer);
 
         alert('Đã hết thời gian làm bài!');
+submitExam();
 
       }
 
