@@ -736,30 +736,82 @@ document.getElementById('examContainer')
 
   let total = 0;
 
-  // CÂU TRẮC NGHIỆM
+  let results = [];
 
-  document.querySelectorAll('.options')
-  .forEach(box=>{
+  document.querySelectorAll('.question')
+  .forEach(question=>{
 
-    total++;
+    let optionsBox = question.querySelector('.options');
 
-    let selected = box.querySelector('.selected');
+    if(optionsBox){
 
-    if(selected){
+      total++;
 
-      if(selected.dataset.correct==="true"){
+      let selected =
+      optionsBox.querySelector('.selected');
+
+      let correctOption =
+      optionsBox.querySelector(
+        '[data-correct="true"]'
+      );
+
+      let selectedText =
+      selected
+      ? selected.innerText
+      : "Chưa chọn";
+
+      let correctText =
+      correctOption
+      ? correctOption.innerText
+      : "";
+
+      let isCorrect =
+      selected &&
+      selected.dataset.correct==="true";
+
+      if(isCorrect){
 
         score++;
 
       }
 
+      results.push({
+
+        question:
+        question.querySelector('h3').innerText,
+
+        selected:selectedText,
+
+        correct:correctText,
+
+        status:isCorrect
+
+      });
+
     }
 
   });
 
-  alert(
-    `Bạn được ${score}/${total} điểm`
+  // LƯU ĐIỂM
+
+  localStorage.setItem(
+    'score',
+    score
   );
+
+  localStorage.setItem(
+    'total',
+    total
+  );
+
+  localStorage.setItem(
+    'results',
+    JSON.stringify(results)
+  );
+
+  // CHUYỂN TRANG
+
+  window.location.href='result.html';
 
 }
 
