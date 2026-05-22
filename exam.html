@@ -303,6 +303,61 @@
   border-color:#2563eb;
 
 }
+  /* ===== PHẦN III ===== */
+
+.number-grid{
+
+  display:grid;
+
+  grid-template-columns:repeat(5,1fr);
+
+  gap:15px;
+
+}
+
+.number-option{
+
+  height:65px;
+
+  border-radius:18px;
+
+  border:2px solid #cbd5e1;
+
+  background:white;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:24px;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.2s;
+
+}
+
+.number-option:hover{
+
+  border-color:#2563eb;
+
+  background:#eff6ff;
+
+}
+
+.number-selected{
+
+  background:#2563eb;
+
+  color:white;
+
+  border-color:#2563eb;
+
+}
     .selected{
 
       background:#dbeafe;
@@ -464,9 +519,32 @@ cực chuẩn của hai cặp oxi hóa – khử lần lượt là - 0,76 V và 
     part2:[
 
       {
-        question:"Câu 1. H2O là nước.",
-        options:["Đúng","Sai"]
-      },
+  question:"Cho các phát biểu sau:",
+
+  statements:[
+
+    {
+      text:"H2O là nước.",
+      correct:"Đúng"
+    },
+
+    {
+      text:"Oxi là kim loại.",
+      correct:"Sai"
+    },
+
+    {
+      text:"NaCl là muối.",
+      correct:"Đúng"
+    },
+
+    {
+      text:"HCl là bazơ.",
+      correct:"Sai"
+    }
+
+  ]
+},
 
       {
         question:"Câu 2. Oxi là kim loại.",
@@ -478,8 +556,9 @@ cực chuẩn của hai cặp oxi hóa – khử lần lượt là - 0,76 V và 
     part3:[
 
       {
-        question:"Câu 1. Viết công thức hóa học của muối ăn."
-      },
+  question:"Câu 1. 5 + 7 có chữ số hàng đơn vị là?",
+  correct:"2"
+},
 
       {
         question:"Câu 2. 5 + 7 = ?"
@@ -631,9 +710,9 @@ html += `
 
 <div class="question">
 
-  <h2>
-    PHẦN II: TRẮC NGHIỆM ĐÚNG - SAI
-  </h2>
+<h2>
+PHẦN II: TRẮC NGHIỆM ĐÚNG - SAI
+</h2>
 
 </div>
 
@@ -641,37 +720,54 @@ html += `
 
 exams[examID].part2.forEach((q,index)=>{
 
-  html += `
+html += `
 
-  <div class="question">
+<div class="question">
 
-    <h3>
+<h3>
 
-      ${q.question}
+${q.question}
 
-    </h3>
+</h3>
 
-    <div class="options">
+`;
 
-      ${q.options.map(option => `
+q.statements.forEach((s,i)=>{
 
-        <div class="option"
-        onclick="selectOption(this)">
+html += `
 
-          ${option}
+<div style="margin-bottom:20px;">
 
-        </div>
+<p style="margin-bottom:10px;">
+${String.fromCharCode(97+i)})
+${s.text}
+</p>
 
-      `).join("")}
+<div class="options">
 
-    </div>
+<div class="option"
+data-correct="${s.correct==='Đúng'}"
+onclick="selectOption(this)">
+Đúng
+</div>
 
-  </div>
+<div class="option"
+data-correct="${s.correct==='Sai'}"
+onclick="selectOption(this)">
+Sai
+</div>
 
-  `;
+</div>
+
+</div>
+
+`;
 
 });
 
+html += `</div>`;
+
+});
 // ===== PHẦN III =====
 
 html += `
@@ -688,23 +784,36 @@ html += `
 
 exams[examID].part3.forEach((q,index)=>{
 
-  html += `
+html += `
 
-  <div class="question">
+<div class="question">
 
-    <h3>
+  <h3>
 
-      ${q.question}
+    ${q.question}
 
-    </h3>
+  </h3>
 
-    <input type="text"
-    class="short-answer"
-    placeholder="Nhập đáp án">
+  <div class="number-grid">
+
+    ${[0,1,2,3,4,5,6,7,8,9].map(num=>`
+
+      <div class="number-option"
+      data-value="${num}"
+      data-correct="${num==q.correct}"
+      onclick="selectNumber(this)">
+
+        ${num}
+
+      </div>
+
+    `).join("")}
 
   </div>
 
-  `;
+</div>
+
+`;
 
 });
 
@@ -727,91 +836,155 @@ document.getElementById('examContainer')
   element.classList.add('selected');
 
 }
+function selectNumber(element){
 
-    // ===== NỘP BÀI =====
+  let parent = element.parentElement;
 
-    function submitExam(){
+  parent.querySelectorAll('.number-option')
+  .forEach(opt=>{
 
-  let score = 0;
-
-  let total = 0;
-
-  let results = [];
-
-  document.querySelectorAll('.question')
-  .forEach(question=>{
-
-    let optionsBox = question.querySelector('.options');
-
-    if(optionsBox){
-
-      total++;
-
-      let selected =
-      optionsBox.querySelector('.selected');
-
-      let correctOption =
-      optionsBox.querySelector(
-        '[data-correct="true"]'
-      );
-
-      let selectedText =
-      selected
-      ? selected.innerText
-      : "Chưa chọn";
-
-      let correctText =
-      correctOption
-      ? correctOption.innerText
-      : "";
-
-      let isCorrect =
-      selected &&
-      selected.dataset.correct==="true";
-
-      if(isCorrect){
-
-        score++;
-
-      }
-
-      results.push({
-
-        question:
-        question.querySelector('h3').innerText,
-
-        selected:selectedText,
-
-        correct:correctText,
-
-        status:isCorrect
-
-      });
-
-    }
+    opt.classList.remove(
+      'number-selected'
+    );
 
   });
 
-  // LƯU ĐIỂM
-
-  localStorage.setItem(
-    'score',
-    score
+  element.classList.add(
+    'number-selected'
   );
 
-  localStorage.setItem(
-    'total',
-    total
-  );
+}
+    // ===== NỘP BÀI =====
 
-  localStorage.setItem(
-    'results',
-    JSON.stringify(results)
-  );
+function submitExam(){
 
-  // CHUYỂN TRANG
+let score = 0;
 
-  window.location.href='result.html';
+let results = [];
+
+// ===== PHẦN I =====
+
+document.querySelectorAll(
+'.question'
+).forEach(question=>{
+
+let optionsBox =
+question.querySelector('.options');
+
+if(optionsBox){
+
+let selected =
+optionsBox.querySelector('.selected');
+
+if(selected){
+
+if(
+selected.dataset.correct==="true"
+){
+
+score += 0.25;
+
+}
+
+}
+
+}
+
+});
+
+// ===== PHẦN II =====
+
+document.querySelectorAll(
+'.question'
+).forEach(question=>{
+
+let groups =
+question.querySelectorAll(
+'.options'
+);
+
+if(groups.length===4){
+
+let correctCount = 0;
+
+groups.forEach(g=>{
+
+let selected =
+g.querySelector('.selected');
+
+if(
+selected &&
+selected.dataset.correct==="true"
+){
+
+correctCount++;
+
+}
+
+});
+
+if(correctCount===4){
+
+score += 1;
+
+}else if(correctCount===3){
+
+score += 0.5;
+
+}else if(correctCount===2){
+
+score += 0.25;
+
+}else if(correctCount===1){
+
+score += 0.1;
+
+}
+
+}
+
+});
+
+// ===== PHẦN III =====
+
+// ===== PHẦN III =====
+
+document.querySelectorAll(
+'.number-grid'
+).forEach(grid=>{
+
+  let selected =
+  grid.querySelector('.number-selected');
+
+  if(selected){
+
+    if(
+      selected.dataset.correct==="true"
+    ){
+
+      score += 0.25;
+
+    }
+
+  }
+
+});
+
+// ===== THANG ĐIỂM 10 =====
+
+if(score > 10){
+
+score = 10;
+
+}
+
+localStorage.setItem(
+'score',
+score.toFixed(2)
+);
+
+window.location.href =
+'result.html';
 
 }
 
