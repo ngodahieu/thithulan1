@@ -544,13 +544,7 @@ cực chuẩn của hai cặp oxi hóa – khử lần lượt là - 0,76 V và 
     }
 
   ]
-},
-
-      {
-        question:"Câu 2. Oxi là kim loại.",
-        options:["Đúng","Sai"]
-      }
-
+}
     ],
 
     part3:[
@@ -558,100 +552,10 @@ cực chuẩn của hai cặp oxi hóa – khử lần lượt là - 0,76 V và 
       {
   question:"Câu 1. 5 + 7 có chữ số hàng đơn vị là?",
   correct:"2"
-},
-
-      {
-        question:"Câu 2. 5 + 7 = ?"
-      }
-
+}
     ]
-      },
-      "0302":{
-part1:[
-
-      {
-        question:"Câu 1. Chất nào là axit mạnh?",
-        options:["NaOH","HCl","NaCl","KOH"]
-      },
-
-      {
-        question:"Câu 2. Công thức hóa học của nước là?",
-        options:["CO2","NaCl","H2O","O2"]
-      }
-
-    ],
-
-    part2:[
-
-      {
-        question:"Câu 1. H2O là nước.",
-        options:["Đúng","Sai"]
-      },
-
-      {
-        question:"Câu 2. Oxi là kim loại.",
-        options:["Đúng","Sai"]
-      }
-
-    ],
-
-    part3:[
-
-      {
-        question:"Câu 1. Viết công thức hóa học của muối ăn."
-      },
-
-      {
-        question:"Câu 2. 5 + 7 = ?"
-      }
-
-    ]
-      },
-
-      "0301":{
-part1:[
-
-      {
-        question:"Câu 1. Chất nào là axit mạnh?",
-        options:["NaOH","HCl","NaCl","KOH"]
-      },
-
-      {
-        question:"Câu 2. Công thức hóa học của nước là?",
-        options:["CO2","NaCl","H2O","O2"]
-      }
-
-    ],
-
-    part2:[
-
-      {
-        question:"Câu 1. H2O là nước.",
-        options:["Đúng","Sai"]
-      },
-
-      {
-        question:"Câu 2. Oxi là kim loại.",
-        options:["Đúng","Sai"]
-      }
-
-    ],
-
-    part3:[
-
-      {
-        question:"Câu 1. Viết công thức hóa học của muối ăn."
-      },
-
-      {
-        question:"Câu 2. 5 + 7 = ?"
-      }
-
-    ]
-      }
-
-    };
-
+      };
+      
     // ===== LOAD ĐỀ =====
 
     let html = "";
@@ -674,7 +578,7 @@ exams[examID].part1.forEach((q,index)=>{
 
   html += `
 
-  <div class="question">
+  <div class="question part1-question">
 
     <h3>
 
@@ -722,7 +626,7 @@ exams[examID].part2.forEach((q,index)=>{
 
 html += `
 
-<div class="question">
+<div class="question part2-question">
 
 <h3>
 
@@ -786,7 +690,7 @@ exams[examID].part3.forEach((q,index)=>{
 
 html += `
 
-<div class="question">
+<div class="question part3-question">
 
   <h3>
 
@@ -858,107 +762,19 @@ function selectNumber(element){
 
 function submitExam(){
 
-let score = 0;
+  let score = 0;
 
-let results = [];
+  // ===== PHẦN I =====
 
-// ===== PHẦN I =====
+  document.querySelectorAll(
+    '.part1-question'
+  ).forEach(question=>{
 
-document.querySelectorAll(
-'.question'
-).forEach(question=>{
-
-let optionsBox =
-question.querySelector('.options');
-
-if(optionsBox){
-
-let selected =
-optionsBox.querySelector('.selected');
-
-if(selected){
-
-if(
-selected.dataset.correct==="true"
-){
-
-score += 0.25;
-
-}
-
-}
-
-}
-
-});
-
-// ===== PHẦN II =====
-
-document.querySelectorAll(
-'.question'
-).forEach(question=>{
-
-let groups =
-question.querySelectorAll(
-'.options'
-);
-
-if(groups.length===4){
-
-let correctCount = 0;
-
-groups.forEach(g=>{
-
-let selected =
-g.querySelector('.selected');
-
-if(
-selected &&
-selected.dataset.correct==="true"
-){
-
-correctCount++;
-
-}
-
-});
-
-if(correctCount===4){
-
-score += 1;
-
-}else if(correctCount===3){
-
-score += 0.5;
-
-}else if(correctCount===2){
-
-score += 0.25;
-
-}else if(correctCount===1){
-
-score += 0.1;
-
-}
-
-}
-
-});
-
-// ===== PHẦN III =====
-
-// ===== PHẦN III =====
-
-document.querySelectorAll(
-'.number-grid'
-).forEach(grid=>{
-
-  let selected =
-  grid.querySelector('.number-selected');
-
-  if(selected){
+    let selected =
+    question.querySelector('.selected');
 
     if(
+      selected &&
       selected.dataset.correct==="true"
     ){
 
@@ -966,25 +782,88 @@ document.querySelectorAll(
 
     }
 
+  });
+
+  // ===== PHẦN II =====
+
+  document.querySelectorAll(
+    '.part2-question'
+  ).forEach(question=>{
+
+    let correctCount = 0;
+
+    question.querySelectorAll('.options')
+    .forEach(group=>{
+
+      let selected =
+      group.querySelector('.selected');
+
+      if(
+        selected &&
+        selected.dataset.correct==="true"
+      ){
+
+        correctCount++;
+
+      }
+
+    });
+
+    if(correctCount===4){
+
+      score += 1;
+
+    }else if(correctCount===3){
+
+      score += 0.5;
+
+    }else if(correctCount===2){
+
+      score += 0.25;
+
+    }else if(correctCount===1){
+
+      score += 0.1;
+
+    }
+
+  });
+
+  // ===== PHẦN III =====
+
+  document.querySelectorAll(
+    '.number-grid'
+  ).forEach(grid=>{
+
+    let selected =
+    grid.querySelector('.number-selected');
+
+    if(
+      selected &&
+      selected.dataset.correct==="true"
+    ){
+
+      score += 0.25;
+
+    }
+
+  });
+
+  // ===== GIỚI HẠN 10 ĐIỂM =====
+
+  if(score > 10){
+
+    score = 10;
+
   }
 
-});
+  localStorage.setItem(
+    'score',
+    score.toFixed(2)
+  );
 
-// ===== THANG ĐIỂM 10 =====
-
-if(score > 10){
-
-score = 10;
-
-}
-
-localStorage.setItem(
-'score',
-score.toFixed(2)
-);
-
-window.location.href =
-'result.html';
+  window.location.href =
+  'result.html';
 
 }
 
