@@ -438,18 +438,20 @@
 part1:[
 
       {
-        question:`Câu 1. Từ quặng bauxite người ta loại bỏ tạp chất, thu được Al<sub>2</sub>O<sub>3</sub>. Sau đó Al được tách ra theo sơ
+        question:`<b>Câu 1.</b> Từ quặng bauxite người ta loại bỏ tạp chất, thu được Al<sub>2</sub>O<sub>3</sub>. Sau đó Al được tách ra theo sơ
 đồ sau: <br>
-          2Al<sub>2</sub>O<sub>3</sub>(l) ⟶ 4Al(l) + 3O<sub>2</sub>(g) <br>
+          <center>2Al<sub>2</sub>O<sub>3</sub>(l) ⟶ 4Al(l) + 3O<sub>2</sub>(g)</center> <br>
       Phương pháp tách kim loại nào sau đây đã được áp dụng ở trên?
             `,
-        options:["Điện phân nóng chảy.","Điện phân dung dịch.","Nhiệt luyện.","Thủy luyện."]
+        options:["Điện phân nóng chảy.","Điện phân dung dịch.","Nhiệt luyện.","Thủy luyện."],
+        correct:"Điện phân nóng chảy."
       },
 
       {
         question:`Câu 2. Thiết lập một pin Galvani gồm hai điện cực chuẩn sau: Zn<sup>2+</sup>/Zn và Cu<sup>2+</sup>/Cu. Biết thế điện
 cực chuẩn của hai cặp oxi hóa – khử lần lượt là - 0,76 V và + 0,34 V . Giá trị sức điện động chuẩn của pin Zn-Cu là`,
-        options:["0,42 V.","–1,10 V.","–0,42 V.","1,10 V."]
+        options:["0,42 V.","–1,10 V.","–0,42 V.","1,10 V."],
+        correct:"1,10 V."
       },
 
       {
@@ -605,7 +607,8 @@ exams[examID].part1.forEach((q,index)=>{
       ${q.options.map(option => `
 
         <div class="option"
-        onclick="selectOption(this)">
+data-correct="${option===q.correct}"
+onclick="selectOption(this)">
 
           ${option}
 
@@ -711,34 +714,53 @@ document.getElementById('examContainer')
 
     function selectOption(element){
 
-      let parent = element.parentElement;
+  let parent = element.parentElement;
 
-      parent.querySelectorAll('.option')
-      .forEach(opt=>{
+  parent.querySelectorAll('.option')
+  .forEach(opt=>{
 
-        opt.classList.remove('selected');
+    opt.classList.remove('selected');
 
-      });
+  });
 
-      element.classList.add('selected');
+  element.classList.add('selected');
 
-    }
+}
 
     // ===== NỘP BÀI =====
 
     function submitExam(){
 
-      let confirmSubmit = confirm(
-        'Bạn có chắc muốn nộp bài?'
-      );
+  let score = 0;
 
-      if(confirmSubmit){
+  let total = 0;
 
-        alert('Nộp bài thành công!');
+  // CÂU TRẮC NGHIỆM
+
+  document.querySelectorAll('.options')
+  .forEach(box=>{
+
+    total++;
+
+    let selected = box.querySelector('.selected');
+
+    if(selected){
+
+      if(selected.dataset.correct==="true"){
+
+        score++;
 
       }
 
     }
+
+  });
+
+  alert(
+    `Bạn được ${score}/${total} điểm`
+  );
+
+}
 
     // ===== ĐỒNG HỒ =====
 
