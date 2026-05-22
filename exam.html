@@ -277,7 +277,31 @@
       background:#eff6ff;
 
     }
+    /* ===== TRẢ LỜI NGẮN ===== */
 
+.short-answer{
+
+  width:100%;
+
+  padding:18px;
+
+  border-radius:16px;
+
+  border:2px solid #cbd5e1;
+
+  outline:none;
+
+  font-size:17px;
+
+  background:white;
+
+}
+
+.short-answer:focus{
+
+  border-color:#2563eb;
+
+}
     .selected{
 
       background:#dbeafe;
@@ -411,60 +435,137 @@
     const exams = {
 
       "0304":[
+part1:[
 
-        {
-          question:"Câu 1. Chất nào là axit mạnh?",
-          options:["NaOH","HCl","NaCl","KOH"]
-        },
+      {
+        question:"Câu 1. Từ quặng bauxite người ta loại bỏ tạp chất, thu được Al<sub>2</sub>O<sub>3</sub>. Sau đó Al được tách ra theo sơ
+đồ sau: <br>
+          2Al<sub>2</sub>O<sub>3</sub>(l) ⟶ 4Al(l) + 3O<sub>2</sub>(g) <br>
+      Phương pháp tách kim loại nào sau đây đã được áp dụng ở trên?
+            ",
+        options:["Điện phân nóng chảy.","Điện phân dung dịch.","Nhiệt luyện.","Thủy luyện."]
+      },
 
-        {
-          question:"Câu 2. Công thức hóa học của nước là?",
-          options:["CO2","NaCl","H2O","O2"]
-        },
+      {
+        question:"Câu 2. Thiết lập một pin Galvani gồm hai điện cực chuẩn sau: Zn<sup>2+</sup>/Zn và Cu<sup>2+</sup>/Cu. Biết thế điện
+cực chuẩn của hai cặp oxi hóa – khử lần lượt là - 0,76 V và + 0,34 V . Giá trị sức điện động chuẩn của pin Zn-Cu là",
+        options:["0,42 V.","–1,10 V.","–0,42 V.","1,10 V."]
+      },
 
-        {
-          question:"Câu 3. 2 + 5 bằng bao nhiêu?",
-          options:["5","6","7","8"]
-        }
+      {
+        question:"Câu 3. Công thức hóa học của nước là?",
+        options:["CO2","NaCl","H2O","O2"]
+      },
+    ],
 
-      ],
+    part2:[
 
+      {
+        question:"Câu 1. H2O là nước.",
+        options:["Đúng","Sai"]
+      },
+
+      {
+        question:"Câu 2. Oxi là kim loại.",
+        options:["Đúng","Sai"]
+      }
+
+    ],
+
+    part3:[
+
+      {
+        question:"Câu 1. Viết công thức hóa học của muối ăn."
+      },
+
+      {
+        question:"Câu 2. 5 + 7 = ?"
+      }
+
+    ]
+        ],
       "0302":[
+part1:[
 
-        {
-          question:"Câu 1. Thủ đô của Việt Nam là?",
-          options:["Huế","Đà Nẵng","Hà Nội","Cần Thơ"]
-        },
+      {
+        question:"Câu 1. Chất nào là axit mạnh?",
+        options:["NaOH","HCl","NaCl","KOH"]
+      },
 
-        {
-          question:"Câu 2. 10 × 5 bằng?",
-          options:["20","30","40","50"]
-        },
+      {
+        question:"Câu 2. Công thức hóa học của nước là?",
+        options:["CO2","NaCl","H2O","O2"]
+      }
 
-        {
-          question:"Câu 3. Kim loại dẫn điện tốt?",
-          options:["Nhựa","Gỗ","Đồng","Giấy"]
-        }
+    ],
 
+    part2:[
+
+      {
+        question:"Câu 1. H2O là nước.",
+        options:["Đúng","Sai"]
+      },
+
+      {
+        question:"Câu 2. Oxi là kim loại.",
+        options:["Đúng","Sai"]
+      }
+
+    ],
+
+    part3:[
+
+      {
+        question:"Câu 1. Viết công thức hóa học của muối ăn."
+      },
+
+      {
+        question:"Câu 2. 5 + 7 = ?"
+      }
+
+    ]
       ],
 
       "0301":[
+part1:[
 
-        {
-          question:"Câu 1. H2SO4 là chất gì?",
-          options:["Bazơ","Muối","Axit","Nước"]
-        },
+      {
+        question:"Câu 1. Chất nào là axit mạnh?",
+        options:["NaOH","HCl","NaCl","KOH"]
+      },
 
-        {
-          question:"Câu 2. 12 : 3 bằng?",
-          options:["2","3","4","5"]
-        },
+      {
+        question:"Câu 2. Công thức hóa học của nước là?",
+        options:["CO2","NaCl","H2O","O2"]
+      }
 
-        {
-          question:"Câu 3. Khí cần cho hô hấp là?",
-          options:["CO2","O2","H2","N2"]
-        }
+    ],
 
+    part2:[
+
+      {
+        question:"Câu 1. H2O là nước.",
+        options:["Đúng","Sai"]
+      },
+
+      {
+        question:"Câu 2. Oxi là kim loại.",
+        options:["Đúng","Sai"]
+      }
+
+    ],
+
+    part3:[
+
+      {
+        question:"Câu 1. Viết công thức hóa học của muối ăn."
+      },
+
+      {
+        question:"Câu 2. 5 + 7 = ?"
+      }
+
+    ]
       ]
 
     };
@@ -472,6 +573,139 @@
     // ===== LOAD ĐỀ =====
 
     let html = "";
+
+// ===== PHẦN I =====
+
+html += `
+
+<div class="question">
+
+  <h2>
+    PHẦN I: TRẮC NGHIỆM NHIỀU PHƯƠNG ÁN LỰA CHỌN
+  </h2>
+
+</div>
+
+`;
+
+exams[examID].part1.forEach((q,index)=>{
+
+  html += `
+
+  <div class="question">
+
+    <h3>
+
+      ${q.question}
+
+    </h3>
+
+    <div class="options">
+
+      ${q.options.map(option => `
+
+        <div class="option"
+        onclick="selectOption(this)">
+
+          ${option}
+
+        </div>
+
+      `).join("")}
+
+    </div>
+
+  </div>
+
+  `;
+
+});
+
+// ===== PHẦN II =====
+
+html += `
+
+<div class="question">
+
+  <h2>
+    PHẦN II: TRẮC NGHIỆM ĐÚNG - SAI
+  </h2>
+
+</div>
+
+`;
+
+exams[examID].part2.forEach((q,index)=>{
+
+  html += `
+
+  <div class="question">
+
+    <h3>
+
+      ${q.question}
+
+    </h3>
+
+    <div class="options">
+
+      ${q.options.map(option => `
+
+        <div class="option"
+        onclick="selectOption(this)">
+
+          ${option}
+
+        </div>
+
+      `).join("")}
+
+    </div>
+
+  </div>
+
+  `;
+
+});
+
+// ===== PHẦN III =====
+
+html += `
+
+<div class="question">
+
+  <h2>
+    PHẦN III: TRẮC NGHIỆM TRẢ LỜI NGẮN
+  </h2>
+
+</div>
+
+`;
+
+exams[examID].part3.forEach((q,index)=>{
+
+  html += `
+
+  <div class="question">
+
+    <h3>
+
+      ${q.question}
+
+    </h3>
+
+    <input type="text"
+    class="short-answer"
+    placeholder="Nhập đáp án">
+
+  </div>
+
+  `;
+
+});
+
+document.getElementById('examContainer')
+.innerHTML = html;
 
     exams[examID].forEach((q,index)=>{
 
