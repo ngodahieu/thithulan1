@@ -707,42 +707,6 @@ exams[examID].part3.forEach((q,index)=>{
 document.getElementById('examContainer')
 .innerHTML = html;
 
-    exams[examID].forEach((q,index)=>{
-
-      html += `
-
-      <div class="question">
-
-        <h3>
-
-          ${q.question}
-
-        </h3>
-
-        <div class="options">
-
-          ${q.options.map(option => `
-
-            <div class="option"
-            onclick="selectOption(this)">
-
-              ${option}
-
-            </div>
-
-          `).join("")}
-
-        </div>
-
-      </div>
-
-      `;
-
-    });
-
-    document.getElementById('examContainer')
-    .innerHTML = html;
-
     // ===== CHỌN ĐÁP ÁN =====
 
     function selectOption(element){
