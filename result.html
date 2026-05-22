@@ -1,84 +1,218 @@
-function submitExam(){
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-  let score = 0;
+<title>Kết Quả</title>
 
-  let total = 0;
+<link rel="icon" href="data:,">
 
-  let results = [];
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
 
-  document.querySelectorAll('.question')
-  .forEach(question=>{
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
 
-    let optionsBox = question.querySelector('.options');
+<style>
 
-    if(optionsBox){
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
 
-      total++;
+body{
+  background:#eef2f7;
+  padding:30px;
+}
 
-      let selected =
-      optionsBox.querySelector('.selected');
+.container{
+  max-width:1100px;
+  margin:auto;
+}
 
-      let correctOption =
-      optionsBox.querySelector(
-        '[data-correct="true"]'
-      );
+.top{
 
-      let selectedText =
-      selected
-      ? selected.innerText
-      : "Chưa chọn";
+  background:white;
 
-      let correctText =
-      correctOption
-      ? correctOption.innerText
-      : "";
+  border-radius:25px;
 
-      let isCorrect =
-      selected &&
-      selected.dataset.correct==="true";
+  padding:35px;
 
-      if(isCorrect){
+  margin-bottom:25px;
 
-        score++;
+  box-shadow:0 8px 20px rgba(0,0,0,.05);
 
-      }
-
-      results.push({
-
-        question:
-        question.querySelector('h3').innerText,
-
-        selected:selectedText,
-
-        correct:correctText,
-
-        status:isCorrect
-
-      });
-
-    }
-
-  });
-
-  // LƯU ĐIỂM
-
-  localStorage.setItem(
-    'score',
-    score
-  );
-
-  localStorage.setItem(
-    'total',
-    total
-  );
-
-  localStorage.setItem(
-    'results',
-    JSON.stringify(results)
-  );
-
-  // CHUYỂN TRANG
-
-  window.location.href='result.html';
+  text-align:center;
 
 }
+
+.top h1{
+
+  font-size:40px;
+
+  color:#0f172a;
+
+  margin-bottom:15px;
+
+}
+
+.score{
+
+  font-size:30px;
+
+  font-weight:800;
+
+  color:#2563eb;
+
+}
+
+.result{
+
+  background:white;
+
+  border-radius:25px;
+
+  padding:25px;
+
+  margin-bottom:20px;
+
+  box-shadow:0 8px 20px rgba(0,0,0,.05);
+
+}
+
+.result h3{
+
+  color:#0f172a;
+
+  margin-bottom:20px;
+
+  line-height:1.8;
+
+  font-weight:500;
+
+}
+
+.info{
+
+  margin-top:12px;
+
+  font-size:16px;
+
+  color:#334155;
+
+}
+
+.correct{
+
+  color:#16a34a;
+
+  font-weight:700;
+
+}
+
+.wrong{
+
+  color:#dc2626;
+
+  font-weight:700;
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="top">
+
+    <h1>KẾT QUẢ BÀI THI</h1>
+
+    <div class="score"
+    id="scoreBox">
+
+    </div>
+
+  </div>
+
+  <div id="resultContainer">
+
+  </div>
+
+</div>
+
+<script>
+
+let score =
+localStorage.getItem('score');
+
+let total =
+localStorage.getItem('total');
+
+let results =
+JSON.parse(
+  localStorage.getItem('results')
+);
+
+document.getElementById('scoreBox')
+.innerText =
+`${score}/${total} điểm`;
+
+let html = "";
+
+results.forEach((r,index)=>{
+
+  html += `
+
+  <div class="result">
+
+    <h3>
+
+      ${r.question}
+
+    </h3>
+
+    <div class="info">
+
+      Đáp án đã chọn:
+      <b>${r.selected}</b>
+
+    </div>
+
+    <div class="info">
+
+      Đáp án đúng:
+      <b>${r.correct}</b>
+
+    </div>
+
+    <div class="info">
+
+      Kết quả:
+
+      ${
+        r.status
+        ? '<span class="correct">ĐÚNG</span>'
+        : '<span class="wrong">SAI</span>'
+      }
+
+    </div>
+
+  </div>
+
+  `;
+
+});
+
+document.getElementById(
+  'resultContainer'
+).innerHTML = html;
+
+</script>
+
+</body>
+</html>
