@@ -798,26 +798,34 @@ function submitExam(){
 
   let score = 0;
 
+let answers = [];
+
   // ===== PHẦN I =====
 
   document.querySelectorAll(
-    '.part1-question'
-  ).forEach(question=>{
+  '.part1-question'
+).forEach(question=>{
 
-    let selected =
-    question.querySelector('.selected');
+  let selected =
+  question.querySelector('.selected');
 
-    if(
-      selected &&
-      selected.dataset.correct==="true"
-    ){
+  let answer =
+  selected
+  ? selected.innerText
+  : "Chưa chọn";
 
-      score += 0.25;
+  answers.push(answer);
 
-    }
+  if(
+    selected &&
+    selected.dataset.correct==="true"
+  ){
 
-  });
+    score += 0.25;
 
+  }
+
+});
   // ===== PHẦN II =====
 
   document.querySelectorAll(
@@ -912,9 +920,9 @@ document.querySelectorAll(
   }
 
   localStorage.setItem(
-    'score',
-    score.toFixed(2)
-  );
+  'answers',
+  JSON.stringify(answers)
+);
 
   window.location.href =
   'result.html';
