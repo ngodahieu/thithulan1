@@ -305,25 +305,43 @@
 }
   /* ===== PHẦN III ===== */
 
-.number-grid{
 
-  display:grid;
+.number-option:hover{
 
-  grid-template-columns:repeat(5,1fr);
+  border-color:#2563eb;
 
-  gap:15px;
+  background:#eff6ff;
+
+}
+.answer-box{
+
+  display:flex;
+
+  gap:20px;
+
+  flex-wrap:wrap;
 
 }
 
-.number-option{
+.digit-column{
 
-  height:65px;
+  display:grid;
 
-  border-radius:18px;
+  grid-template-columns:1fr;
+
+  gap:10px;
+
+}
+
+.digit-option{
+
+  width:60px;
+
+  height:60px;
+
+  border-radius:14px;
 
   border:2px solid #cbd5e1;
-
-  background:white;
 
   display:flex;
 
@@ -331,7 +349,9 @@
 
   justify-content:center;
 
-  font-size:24px;
+  background:white;
+
+  font-size:22px;
 
   font-weight:700;
 
@@ -341,7 +361,7 @@
 
 }
 
-.number-option:hover{
+.digit-option:hover{
 
   border-color:#2563eb;
 
@@ -349,7 +369,7 @@
 
 }
 
-.number-selected{
+.digit-selected{
 
   background:#2563eb;
 
@@ -703,22 +723,30 @@ html += `
 
   </h3>
 
-  <div class="number-grid">
+  <div class="answer-box">
 
-    ${[0,1,2,3,4,5,6,7,8,9].map(num=>`
+  ${[1,2,3,4].map(pos=>`
 
-      <div class="number-option"
-      data-value="${num}"
-      data-correct="${num==q.correct}"
-      onclick="selectNumber(this)">
+    <div class="digit-column">
 
-        ${num}
+      ${['0','1','2','3','4','5','6','7','8','9',',']
+      .map(char=>`
 
-      </div>
+        <div class="digit-option"
+        data-value="${char}"
+        onclick="selectDigit(this,${pos})">
 
-    `).join("")}
+          ${char}
 
-  </div>
+        </div>
+
+      `).join("")}
+
+    </div>
+
+  `).join("")}
+
+</div>
 
 </div>
 
@@ -745,21 +773,22 @@ document.getElementById('examContainer')
   element.classList.add('selected');
 
 }
-function selectNumber(element){
+function selectDigit(element,pos){
 
-  let parent = element.parentElement;
+  let column =
+  element.parentElement;
 
-  parent.querySelectorAll('.number-option')
+  column.querySelectorAll('.digit-option')
   .forEach(opt=>{
 
     opt.classList.remove(
-      'number-selected'
+      'digit-selected'
     );
 
   });
 
   element.classList.add(
-    'number-selected'
+    'digit-selected'
   );
 
 }
@@ -836,23 +865,43 @@ function submitExam(){
 
   // ===== PHẦN III =====
 
-  document.querySelectorAll(
-    '.number-grid'
-  ).forEach(grid=>{
+document.querySelectorAll(
+  '.part3-question'
+).forEach(question=>{
+
+  let answer = "";
+
+  question.querySelectorAll(
+    '.digit-column'
+  ).forEach(column=>{
 
     let selected =
-    grid.querySelector('.number-selected');
+    column.querySelector(
+      '.digit-selected'
+    );
 
-    if(
-      selected &&
-      selected.dataset.correct==="true"
-    ){
+    if(selected){
 
-      score += 0.25;
+      answer += selected.dataset.value;
 
     }
 
   });
+
+  let correct =
+  exams[examID]
+  .part3[
+    [...document.querySelectorAll('.part3-question')]
+    .indexOf(question)
+  ].correct;
+
+  if(answer === correct){
+
+    score += 0.25;
+
+  }
+
+});
 
   // ===== GIỚI HẠN 10 ĐIỂM =====
 
