@@ -796,7 +796,7 @@ function selectDigit(element,pos){
 }
     // ===== NỘP BÀI =====
 
-function submitExam(){
+async function submitExam(){
 
   let score = 0;
 
@@ -1022,6 +1022,32 @@ document.querySelectorAll(
     'results',
     JSON.stringify(results)
   );
+  await addDoc(
+collection(db,"results"),
+{
+
+  studentName:
+  studentName,
+
+  examCode:
+  examCode,
+
+  examID:
+  examID,
+
+  score:
+  score.toFixed(2),
+
+  total:
+  10,
+
+  results:
+  results,
+
+  submitTime:
+  new Date().toLocaleString()
+
+});
 
   window.location.href =
   'result.html';
@@ -1063,6 +1089,48 @@ submitExam();
     },1000);
 
   </script>
+  <script type="module">
 
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+addDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyBw_La4PFQ-RSIxHQxSC98Il934VwbhiV4",
+
+  authDomain: "examsystem-a830e.firebaseapp.com",
+
+  projectId: "examsystem-a830e",
+
+  storageBucket: "examsystem-a830e.firebasestorage.app",
+
+  messagingSenderId: "455003412123",
+
+  appId: "1:455003412123:web:90d879b919cc4f20a3d83e",
+
+  measurementId: "G-6C44HBBE0E"
+
+};
+
+const app =
+initializeApp(firebaseConfig);
+
+const db =
+getFirestore(app);
+
+window.db = db;
+
+window.collection = collection;
+
+window.addDoc = addDoc;
+
+</script>
 </body>
 </html>
