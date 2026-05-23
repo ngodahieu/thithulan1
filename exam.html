@@ -931,25 +931,30 @@ function submitExam(){
     '.part3-question'
   ).forEach((question,index)=>{
 
-    let answer = "";
+let answerArray = [];
 
-    question.querySelectorAll(
-      '.digit-column'
-    ).forEach(column=>{
+question.querySelectorAll(
+  '.digit-column'
+).forEach(column=>{
 
-      let selected =
-      column.querySelector(
-        '.digit-selected'
-      );
+  let selected =
+  column.querySelector(
+    '.digit-selected'
+  );
 
-      if(selected){
+  if(selected){
 
-        answer +=
-        selected.dataset.value;
+    answerArray.push(
+      selected.dataset.value
+    );
 
-      }
+  }
 
-    });
+});
+
+let answer =
+answerArray.join("")
+.trim();
 
     let correct =
     exams[examID]
@@ -957,7 +962,8 @@ function submitExam(){
     .correct;
 
     let isCorrect =
-    answer === correct;
+answer.replace(/^0+/,"")
+=== correct.replace(/^0+/,"");
 
     if(isCorrect){
 
