@@ -209,31 +209,32 @@
 
   </div>
 
-  <script>
+<script>
 
-    // DANH SÁCH THÍ SINH
+const students = {
 
-    const students = {
+  "HS001":{
+    name:"Ngô Đa Hiếu",
+    exam:"0304"
+  },
 
-      "HS001":{
-        name:"Ngô Đa Hiếu",
-        exam:"0304"
-      },
+  "HS002":{
+    name:"Trần Minh Hiếu",
+    exam:"0302"
+  },
 
-      "HS002":{
-        name:"Trần Minh Hiếu",
-        exam:"0302"
-      },
+  "HS003":{
+    name:"Lê Gia Hân",
+    exam:"0301"
+  }
 
-      "HS003":{
-        name:"Lê Gia Hân",
-        exam:"0301"
-      }
-    };
+};
 
+// ===== MÃ ADMIN =====
 
+const adminCode = "ADMIN123";
 
-    function startExam(){
+function startExam(){
 
   let code = document
   .getElementById('examCode')
@@ -241,18 +242,29 @@
   .trim()
   .toUpperCase();
 
-  // KIỂM TRA MÃ
+  // ===== ADMIN =====
+
+  if(code === adminCode){
+
+    localStorage.setItem(
+      'isAdmin',
+      'true'
+    );
+
+    window.location.href =
+    'admin.html';
+
+    return;
+  }
+
+  // ===== THÍ SINH =====
 
   if(students[code]){
-
-    // LƯU MÃ
 
     localStorage.setItem(
       'examCode',
       code
     );
-
-    // LƯU TÊN THÍ SINH
 
     localStorage.setItem(
       'studentName',
@@ -260,13 +272,12 @@
     );
 
     localStorage.setItem(
-    'examID',
-    students[code].exam
-  );
+      'examID',
+      students[code].exam
+    );
 
-    // CHUYỂN TRANG
-
-    window.location.href='info.html';
+    window.location.href =
+    'info.html';
 
   }else{
 
@@ -276,7 +287,7 @@
 
 }
 
-  </script>
+</script>
 
 </body>
 </html>
