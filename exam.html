@@ -799,6 +799,18 @@ function selectDigit(element,pos){
   let column =
   element.parentElement;
 
+  // nếu đang được chọn -> bấm lại sẽ hủy chọn
+  if(element.classList.contains('digit-selected')){
+
+    element.classList.remove(
+      'digit-selected'
+    );
+
+    return;
+
+  }
+
+  // bỏ chọn các số khác trong cột
   column.querySelectorAll('.digit-option')
   .forEach(opt=>{
 
@@ -808,6 +820,7 @@ function selectDigit(element,pos){
 
   });
 
+  // chọn số mới
   element.classList.add(
     'digit-selected'
   );
