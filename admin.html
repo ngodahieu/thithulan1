@@ -1,199 +1,4 @@
 <!DOCTYPE html>
-<html lang="vi">
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>ADMIN</title>
-
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins;
-}
-
-body{
-background:#eef2f7;
-padding:30px;
-}
-
-.container{
-max-width:1200px;
-margin:auto;
-}
-
-.title{
-font-size:40px;
-font-weight:800;
-margin-bottom:30px;
-color:#0f172a;
-}
-
-.card{
-
-background:white;
-
-padding:25px;
-
-border-radius:25px;
-
-margin-bottom:25px;
-
-box-shadow:0 8px 20px rgba(0,0,0,.05);
-
-}
-
-.name{
-
-font-size:28px;
-
-font-weight:700;
-
-margin-bottom:10px;
-
-}
-
-.score{
-
-font-size:24px;
-
-font-weight:800;
-
-color:#2563eb;
-
-margin-bottom:15px;
-
-}
-
-.question{
-
-padding:15px;
-
-border-radius:18px;
-
-background:#f8fafc;
-
-margin-top:15px;
-
-}
-
-.correct{
-
-color:#16a34a;
-
-font-weight:700;
-
-}
-
-.wrong{
-
-color:#dc2626;
-
-font-weight:700;
-
-}
-
-</style>
-
-</head>
-<body>
-
-<div class="container">
-
-<div class="title">
-DANH SÁCH BÀI THI
-</div>
-
-<div id="container">
-
-</div>
-
-</div>
-
-<script type="module">
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-getFirestore,
-collection,
-getDocs
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-const firebaseConfig = {
-
-  apiKey: "AIzaSyBw_La4PFQ-RSIxHQxSC98Il934VwbhiV4",
-
-  authDomain: "examsystem-a830e.firebaseapp.com",
-
-  projectId: "examsystem-a830e",
-
-  storageBucket: "examsystem-a830e.firebasestorage.app",
-
-  messagingSenderId: "455003412123",
-
-  appId: "1:455003412123:web:90d879b919cc4f20a3d83e",
-
-  measurementId: "G-6C44HBBE0E"
-
-};
-
-const app =
-initializeApp(firebaseConfig);
-
-const db =
-getFirestore(app);
-
-const querySnapshot =
-await getDocs(
-collection(db,"results")
-);
-
-let html = "";
-
-querySnapshot.forEach((doc)=>{
-
-let data = doc.data();
-
-html += `
-
-<div class="card">
-
-<div class="name">
-${data.studentName}
-</div>
-
-<div>
-Mã đề:
-${data.examCode}
-</div>
-
-<div class="score">
-${data.score}/10
-</div>
-
-<div>
-Nộp lúc:
-${data.submitTime}
-</div>
-
-${data.results.map(r=>`
-
-<div class="question">
 
 <div>
 ${r.question}
@@ -203,19 +8,15 @@ ${r.question}
 
 <div>
 Đã chọn:
-<b>
-${r.selected}
-</b>
+<b>${r.selected}</b>
 </div>
 
 <div>
-Đúng:
-<b>
-${r.correct}
-</b>
+Đáp án đúng:
+<b>${r.correct}</b>
 </div>
 
-<div>
+<div style="margin-top:10px;">
 
 ${
 r.status
@@ -231,13 +32,33 @@ r.status
 
 </div>
 
+</div>
+
 `;
 
 });
 
 document.getElementById(
-"container"
+"scoreContainer"
 ).innerHTML = html;
+
+});
+
+window.toggleDetail = function(id){
+
+let box = document.getElementById(id);
+
+if(box.style.display === "none"){
+
+box.style.display = "block";
+
+}else{
+
+box.style.display = "none";
+
+}
+
+}
 
 </script>
 
