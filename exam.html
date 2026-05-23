@@ -759,11 +759,13 @@ document.getElementById('examContainer')
 
     // ===== CHỌN ĐÁP ÁN =====
 
-    function selectOption(element){
+function selectOption(element){
 
-  let parent = element.parentElement;
+  let optionsBox =
+  element.closest('.options');
 
-  parent.querySelectorAll('.option')
+  optionsBox
+  .querySelectorAll('.option')
   .forEach(opt=>{
 
     opt.classList.remove('selected');
@@ -806,8 +808,8 @@ function submitExam(){
     '.part1-question'
   ).forEach((question,index)=>{
 
-    let selected =
-    question.querySelector('.selected');
+let selected =
+question.querySelector('.options .selected');
 
     let selectedAnswer =
     selected
@@ -860,7 +862,7 @@ function submitExam(){
     .forEach((group,i)=>{
 
       let selected =
-      group.querySelector('.selected');
+      group.querySelector('.option.selected');
 
       let answer =
       selected
