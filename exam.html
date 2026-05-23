@@ -767,77 +767,7 @@ html += `
 
 document.getElementById('examContainer')
 .innerHTML = html;
-// ===== CHẾ ĐỘ XEM LIVE =====
 
-if(isViewer){
-
-document.title =
-"THEO DÕI THÍ SINH";
-document.body.style.overflow = "hidden";
-window.addEventListener(
-'wheel',
-e => e.preventDefault(),
-{ passive:false }
-);
-
-window.addEventListener(
-'touchmove',
-e => e.preventDefault(),
-{ passive:false }
-);
-onSnapshot(
-
-doc(db,"liveUsers",examCode),
-
-(snapshot)=>{
-
-let data = snapshot.data();
-
-if(!data) return;
-
-// ===== SCROLL =====
-
-let allQuestions = [
-
-...document.querySelectorAll(
-'.part1-question,.part2-question,.part3-question'
-)
-
-];
-
-let target =
-allQuestions[
-data.currentQuestion-1
-];
-
-if(target){
-
-target.scrollIntoView({
-
-behavior:"smooth",
-block:"center"
-
-});
-
-}
-
-// ===== HIỆN ĐÁP ÁN =====
-
-if(data.currentAnswers){
-
-restoreAnswersFromLive(
-
-JSON.parse(
-data.currentAnswers
-)
-
-);
-
-}
-
-});
-
-}
 // ===== KHÔI PHỤC ĐÁP ÁN =====
 function restoreAnswersFromLive(
 answers
@@ -1851,6 +1781,82 @@ window.addDoc = addDoc;
 
 window.updateDoc = updateDoc;
 window.doc = doc;
+window.onSnapshot = onSnapshot;
+// ===== VIEWER REALTIME =====
+
+if(isViewer){
+
+  document.title = "THEO DÕI THÍ SINH";
+
+  document.body.style.overflow = "hidden";
+
+  window.addEventListener(
+    'wheel',
+    e => e.preventDefault(),
+    { passive:false }
+  );
+
+  window.addEventListener(
+    'touchmove',
+    e => e.preventDefault(),
+    { passive:false }
+  );
+
+  onSnapshot(
+
+    doc(db,"liveUsers",examCode),
+
+    (snapshot)=>{
+
+      let data = snapshot.data();
+
+      if(!data) return;
+
+      // ===== SCROLL =====
+
+      let allQuestions = [
+
+        ...document.querySelectorAll(
+          '.part1-question,.part2-question,.part3-question'
+        )
+
+      ];
+
+      let target =
+      allQuestions[
+        data.currentQuestion - 1
+      ];
+
+      if(target){
+
+        target.scrollIntoView({
+
+          behavior:"smooth",
+          block:"center"
+
+        });
+
+      }
+
+      // ===== HIỆN ĐÁP ÁN =====
+
+      if(data.currentAnswers){
+
+        restoreAnswersFromLive(
+
+          JSON.parse(
+            data.currentAnswers
+          )
+
+        );
+
+      }
+
+    }
+
+  );
+
+}
 </script>
 </body>
 </html>
