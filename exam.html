@@ -927,67 +927,74 @@ function submitExam(){
 
   // ===== PHẦN III =====
 
-  document.querySelectorAll(
-    '.part3-question'
-  ).forEach((question,index)=>{
+document.querySelectorAll(
+  '.part3-question'
+).forEach((question,index)=>{
 
-let answerArray = [];
+  let answerArray = [];
 
-question.querySelectorAll(
-  '.digit-column'
-).forEach(column=>{
+  question.querySelectorAll(
+    '.digit-column'
+  ).forEach(column=>{
 
-  let selected =
-  column.querySelector(
-    '.digit-selected'
-  );
-
-  if(selected){
+    let selected =
+    column.querySelector(
+      '.digit-selected'
+    );
 
     answerArray.push(
-      selected.dataset.value
+      selected
+      ? selected.dataset.value
+      : ""
     );
+
+  });
+
+  let answer =
+  answerArray.join("").trim();
+
+  let correct =
+  exams[examID]
+  .part3[index]
+  .correct
+  .trim();
+
+  // bỏ số 0 đầu
+  let normalizedAnswer =
+  answer.replace(/^0+/,"");
+
+  let normalizedCorrect =
+  correct.replace(/^0+/,"");
+
+  let isCorrect =
+  normalizedAnswer ===
+  normalizedCorrect;
+
+  if(isCorrect){
+
+    score += 0.25;
 
   }
 
-});
+  results.push({
 
-let answer =
-answerArray.join("")
-.trim();
-
-    let correct =
+    question:
     exams[examID]
     .part3[index]
-    .correct;
+    .question,
 
-    let isCorrect =
-answer.replace(/^0+/,"")
-=== correct.replace(/^0+/,"");
+    selected:
+    answer || "Chưa chọn",
 
-    if(isCorrect){
+    correct:
+    correct,
 
-      score += 0.25;
-
-    }
-
-    results.push({
-
-      question:
-      exams[examID].part3[index].question,
-
-      selected:
-      answer || "Chưa chọn",
-
-      correct:
-      correct,
-
-      status:
-      isCorrect
-
-    });
+    status:
+    isCorrect
 
   });
+
+});
 
   // ===== GIỚI HẠN =====
 
