@@ -1161,7 +1161,15 @@ if(isViewer) return;
   );
 
   saveAnswers();
-
+    updateDoc(
+  doc(db,"liveUsers",examCode),
+  {
+    currentAnswers:
+    JSON.stringify(
+      getCurrentAnswers()
+    )
+  }
+);
 }
 function getCurrentAnswers(){
 
@@ -1680,6 +1688,17 @@ let timer = setInterval(()=>{
   document.getElementById("time")
   .innerText =
   `${minutes}:${seconds}`;
+  if(!isViewer){
+
+updateDoc(
+doc(db,"liveUsers",examCode),
+{
+remainingTime:
+`${minutes}:${seconds}`
+}
+);
+
+}
 
   if(remaining <= 0){
 
@@ -1796,6 +1815,9 @@ window.updateProgress = updateProgress;
 window.db = db;
 window.collection = collection;
 window.addDoc = addDoc;
+
+window.updateDoc = updateDoc;
+window.doc = doc;
 </script>
 </body>
 </html>
