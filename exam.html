@@ -771,12 +771,16 @@ document.title =
 "THEO DÕI THÍ SINH";
 
 onSnapshot(
+
 doc(db,"liveUsers",viewCode),
+
 (snapshot)=>{
 
 let data = snapshot.data();
 
 if(!data) return;
+
+// ===== SCROLL =====
 
 let allQuestions = [
 
@@ -787,7 +791,9 @@ let allQuestions = [
 ];
 
 let target =
-allQuestions[data.currentQuestion-1];
+allQuestions[
+data.currentQuestion-1
+];
 
 if(target){
 
@@ -800,11 +806,154 @@ block:"center"
 
 }
 
+// ===== HIỆN ĐÁP ÁN =====
+
+if(data.currentAnswers){
+
+restoreAnswersFromLive(
+
+JSON.parse(
+data.currentAnswers
+)
+
+);
+
+}
+
 });
 
 }
 // ===== KHÔI PHỤC ĐÁP ÁN =====
+function restoreAnswersFromLive(
+answers
+){
 
+// reset cũ
+
+document.querySelectorAll(
+'.option'
+).forEach(opt=>{
+
+opt.classList.remove(
+'selected'
+);
+
+});
+
+document.querySelectorAll(
+'.digit-option'
+).forEach(opt=>{
+
+opt.classList.remove(
+'digit-selected'
+);
+
+});
+
+// ===== PART 1 =====
+
+document.querySelectorAll(
+'.part1-question'
+).forEach((question,index)=>{
+
+let answer =
+answers.part1[index];
+
+if(!answer) return;
+
+question.querySelectorAll('.option')
+.forEach(opt=>{
+
+if(
+opt.innerText.trim()
+=== answer.trim()
+){
+
+opt.classList.add(
+'selected'
+);
+
+}
+
+});
+
+});
+
+// ===== PART 2 =====
+
+document.querySelectorAll(
+'.part2-question'
+).forEach((question,index)=>{
+
+let arr =
+answers.part2[index];
+
+if(!arr) return;
+
+question.querySelectorAll('.options')
+.forEach((group,i)=>{
+
+let answer = arr[i];
+
+group.querySelectorAll('.option')
+.forEach(opt=>{
+
+if(
+opt.innerText.trim()
+=== answer
+){
+
+opt.classList.add(
+'selected'
+);
+
+}
+
+});
+
+});
+
+});
+
+// ===== PART 3 =====
+
+document.querySelectorAll(
+'.part3-question'
+).forEach((question,index)=>{
+
+let arr =
+answers.part3[index];
+
+if(!arr) return;
+
+question.querySelectorAll(
+'.digit-column'
+).forEach((column,i)=>{
+
+let value = arr[i];
+
+column.querySelectorAll(
+'.digit-option'
+).forEach(opt=>{
+
+if(
+opt.dataset.value
+=== value
+){
+
+opt.classList.add(
+'digit-selected'
+);
+
+}
+
+});
+
+});
+
+});
+
+}
 restoreAnswers();
 
 function restoreAnswers(){
@@ -939,7 +1088,15 @@ if(isViewer) return;
   element.classList.add('selected');
 
   saveAnswers();
-
+await updateDoc(
+  doc(db,"liveUsers",examCode),
+  {
+    currentAnswers:
+    JSON.stringify(
+      getCurrentAnswers()
+    )
+  }
+);
   let questionBox =
   element.closest('.question');
 
@@ -977,7 +1134,15 @@ if(isViewer) return;
     );
 
     saveAnswers();
-
+    updateDoc(
+  doc(db,"liveUsers",examCode),
+  {
+    currentAnswers:
+    JSON.stringify(
+      getCurrentAnswers()
+    )
+  }
+);
     return;
 
   }
@@ -996,6 +1161,101 @@ if(isViewer) return;
   );
 
   saveAnswers();
+
+}
+function getCurrentAnswers(){
+
+  let answers = {
+
+    part1: [],
+    part2: [],
+    part3: []
+
+  };
+
+  // ===== PART 1 =====
+
+  document.querySelectorAll(
+    '.part1-question'
+  ).forEach(question=>{
+
+    let selected =
+    question.querySelector(
+      '.option.selected'
+    );
+
+    answers.part1.push(
+
+      selected
+      ? selected.innerText
+      : null
+
+    );
+
+  });
+
+  // ===== PART 2 =====
+
+  document.querySelectorAll(
+    '.part2-question'
+  ).forEach(question=>{
+
+    let arr = [];
+
+    question.querySelectorAll('.options')
+    .forEach(group=>{
+
+      let selected =
+      group.querySelector(
+        '.option.selected'
+      );
+
+      arr.push(
+
+        selected
+        ? selected.innerText
+        : null
+
+      );
+
+    });
+
+    answers.part2.push(arr);
+
+  });
+
+  // ===== PART 3 =====
+
+  document.querySelectorAll(
+    '.part3-question'
+  ).forEach(question=>{
+
+    let arr = [];
+
+    question.querySelectorAll(
+      '.digit-column'
+    ).forEach(column=>{
+
+      let selected =
+      column.querySelector(
+        '.digit-selected'
+      );
+
+      arr.push(
+
+        selected
+        ? selected.dataset.value
+        : null
+
+      );
+
+    });
+
+    answers.part3.push(arr);
+
+  });
+
+  return answers;
 
 }
 // ===== LƯU ĐÁP ÁN =====
