@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
-
 <title>ADMIN DASHBOARD</title>
 
 <link rel="preconnect"
@@ -14,7 +13,6 @@ href="https://fonts.googleapis.com">
 rel="stylesheet">
 
 <style>
-
 *{
 margin:0;
 padding:0;
@@ -32,7 +30,6 @@ color:white;
 max-width:1500px;
 margin:auto;
 }
-
 .title{
 font-size:45px;
 font-weight:800;
@@ -59,7 +56,6 @@ font-size:24px;
 font-weight:700;
 margin-bottom:20px;
 }
-
 .student-card{
 background:#1e293b;
 padding:18px;
@@ -75,4 +71,278 @@ background:#334155;
 }
 
 .student-name{
+font-size:20px;
+font-weight:700;
+margin-bottom:10px;
+}
+.score{
+font-size:18px;
+font-weight:700;
+color:#60a5fa;
+margin-top:10px;
+}
+
+.progress-box{
+width:100%;
+height:14px;
+background:#0f172a;
+border-radius:999px;
+overflow:hidden;
+margin-top:12px;
+}
+
+.progress-bar{
+height:100%;
+background:linear-gradient(90deg,#2563eb,#10b981);
+}
+.detail{
+background:#1e293b;
+padding:20px;
+border-radius:22px;
+margin-bottom:18px;
+}
+
+.correct{
+color:#22c55e;
+font-weight:700;
+}
+
+.wrong{
+color:#ef4444;
+font-weight:700;
+}
+.question{
+background:#0f172a;
+padding:18px;
+border-radius:18px;
+margin-top:15px;
+line-height:1.8;
+}
+
+.empty{
+opacity:.7;
+text-align:center;
+padding:60px;
+}
+
+.live-status{
+margin-top:10px;
+font-size:14px;
+color:#cbd5e1;
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="title">
+ADMIN DASHBOARD
+</div>
+
+<div class="grid">
+
+<div class="panel">
+
+<div class="panel-title">
+THÍ SINH ĐANG LÀM BÀI
+</div>
+
+<div id="liveContainer"></div>
+
+</div>
+<div class="panel">
+
+<div class="panel-title">
+DANH SÁCH ĐIỂM THI
+</div>
+
+<div id="scoreContainer"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<script type="module">
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+onSnapshot
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyBw_La4PFQ-RSIxHQxSC98Il934VwbhiV4",
+
+  authDomain: "examsystem-a830e.firebaseapp.com",
+
+  projectId: "examsystem-a830e",
+
+  storageBucket: "examsystem-a830e.firebasestorage.app",
+
+  messagingSenderId: "455003412123",
+
+  appId: "1:455003412123:web:90d879b919cc4f20a3d83e",
+
+  measurementId: "G-6C44HBBE0E"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+// ===== REALTIME THÍ SINH =====
+
+onSnapshot(collection(db,"liveUsers"),(snapshot)=>{
+
+let html = "";
+
+snapshot.forEach((doc)=>{
+
+let data = doc.data();
+
+html += `
+
+<div class="student-card">
+
+<div class="student-name">
+${data.studentName}
+</div>
+
+<div>
+${data.currentPart}
+</div>
+
+<div class="live-status">
+Câu hiện tại: ${data.currentQuestion}
+</div>
+
+<div class="progress-box">
+<div class="progress-bar"
+style="width:${data.progress}%">
+</div>
+</div>
+
+<div class="live-status">
+${data.progress}% hoàn thành
+</div>
+
+</div>
+
+`;
+
+});
+document.getElementById(
+"liveContainer"
+).innerHTML = html;
+
+});
+
+// ===== REALTIME ĐIỂM =====
+
+onSnapshot(collection(db,"results"),(snapshot)=>{
+
+let html = "";
+
+snapshot.forEach((doc)=>{
+
+let data = doc.data();
+
+html += `
+
+<div class="student-card"
+onclick="toggleDetail('${doc.id}')">
+
+<div class="student-name">
+${data.studentName}
+</div>
+<div>
+Mã đề: ${data.examCode}
+</div>
+
+<div class="score">
+${data.score}/10
+</div>
+
+<div class="live-status">
+${data.submitTime}
+</div>
+
+<div id="${doc.id}"
+style="display:none;margin-top:20px;">
+
+${data.results.map(r=>`
+
+<div class="question">
+
+<div>
+${r.question}
+</div>
+
+<br>
+
+<div>
+Đã chọn:
+<b>${r.selected}</b>
+</div>
+
+<div>
+Đáp án đúng:
+<b>${r.correct}</b>
+</div>
+
+<div style="margin-top:10px;">
+
+${
+r.status
+? '<span class="correct">ĐÚNG</span>'
+: '<span class="wrong">SAI</span>'
+}
+
+</div>
+
+</div>
+
+`).join("")}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+document.getElementById(
+"scoreContainer"
+).innerHTML = html;
+
+});
+
+window.toggleDetail = function(id){
+
+let box = document.getElementById(id);
+
+if(box.style.display === "none"){
+
+box.style.display = "block";
+
+}else{
+
+box.style.display = "none";
+
+}
+
+}
+
+</script>
+
+</body>
 </html>
