@@ -237,22 +237,24 @@ const adminCode = "ADMIN123";
 function startExam(){
 
   let code = document
-  .getElementById('examCode')
+  .getElementById("examCode")
   .value
   .trim()
   .toUpperCase();
 
-  // ===== ADMIN =====
+  console.log(code);
+
+  // ===== ĐĂNG NHẬP ADMIN =====
 
   if(code === adminCode){
 
     localStorage.setItem(
-      'isAdmin',
-      'true'
+      "isAdmin",
+      "true"
     );
 
     window.location.href =
-    'admin.html';
+    "admin.html";
 
     return;
   }
@@ -262,30 +264,43 @@ function startExam(){
   if(students[code]){
 
     localStorage.setItem(
-      'examCode',
+      "examCode",
       code
     );
 
     localStorage.setItem(
-      'studentName',
+      "studentName",
       students[code].name
     );
 
     localStorage.setItem(
-      'examID',
+      "examID",
       students[code].exam
     );
 
     window.location.href =
-    'info.html';
+    "info.html";
 
   }else{
 
-    alert('Mã dự thi không hợp lệ!');
+    alert("Mã dự thi không hợp lệ!");
 
   }
 
 }
+
+// ENTER ĐỂ ĐĂNG NHẬP
+
+document.getElementById("examCode")
+.addEventListener("keypress",function(e){
+
+  if(e.key === "Enter"){
+
+    startExam();
+
+  }
+
+});
 
 </script>
 
