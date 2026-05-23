@@ -1,66 +1,78 @@
 <!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-<div>
-${r.question}
-</div>
+<title>ADMIN DASHBOARD</title>
 
-<br>
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
 
-<div>
-Đã chọn:
-<b>${r.selected}</b>
-</div>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
 
-<div>
-Đáp án đúng:
-<b>${r.correct}</b>
-</div>
+<style>
 
-<div style="margin-top:10px;">
-
-${
-r.status
-? '<span class="correct">ĐÚNG</span>'
-: '<span class="wrong">SAI</span>'
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins;
 }
 
-</div>
-
-</div>
-
-`).join("")}
-
-</div>
-
-</div>
-
-`;
-
-});
-
-document.getElementById(
-"scoreContainer"
-).innerHTML = html;
-
-});
-
-window.toggleDetail = function(id){
-
-let box = document.getElementById(id);
-
-if(box.style.display === "none"){
-
-box.style.display = "block";
-
-}else{
-
-box.style.display = "none";
-
+body{
+background:#0f172a;
+padding:30px;
+color:white;
 }
 
+.container{
+max-width:1500px;
+margin:auto;
 }
 
-</script>
+.title{
+font-size:45px;
+font-weight:800;
+margin-bottom:30px;
+}
 
-</body>
+.grid{
+display:grid;
+grid-template-columns:380px 1fr;
+gap:25px;
+align-items:start;
+}
+
+.panel{
+background:#111827;
+border:1px solid #1e293b;
+border-radius:30px;
+padding:25px;
+box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+.panel-title{
+font-size:24px;
+font-weight:700;
+margin-bottom:20px;
+}
+
+.student-card{
+background:#1e293b;
+padding:18px;
+border-radius:22px;
+margin-bottom:18px;
+cursor:pointer;
+transition:.25s;
+}
+
+.student-card:hover{
+transform:translateY(-3px);
+background:#334155;
+}
+
+.student-name{
 </html>
