@@ -489,7 +489,16 @@
   </div>
 
   <script>
+// ===== URL PARAM =====
 
+const urlParams =
+new URLSearchParams(window.location.search);
+
+const viewCode =
+urlParams.get('view');
+
+const isViewer =
+viewCode ? true : false;
     // ===== LẤY DỮ LIỆU =====
 
     let studentName = localStorage.getItem('studentName');
@@ -499,21 +508,14 @@
 : localStorage.getItem('examCode');
 
     let examID = localStorage.getItem('examID');
-const urlParams =
-new URLSearchParams(window.location.search);
-
-const viewCode =
-urlParams.get('view');
-
-const isViewer =
-viewCode ? true : false;
     // ===== KIỂM TRA =====
 
-    if(!studentName || !examCode || !examID){
-
-      window.location.href='index.html';
-
-    }
+    if(
+  !examCode ||
+  (!isViewer && (!studentName || !examID))
+){
+  window.location.href='index.html';
+}
 
     // ===== DANH SÁCH ĐỀ =====
 
