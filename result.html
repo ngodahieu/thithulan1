@@ -121,7 +121,37 @@ body{
   font-weight:700;
 
 }
+.finish-btn{
 
+  margin-top:25px;
+
+  padding:15px 35px;
+
+  border:none;
+
+  border-radius:16px;
+
+  background:#2563eb;
+
+  color:white;
+
+  font-size:16px;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.25s;
+
+}
+
+.finish-btn:hover{
+
+  background:#1d4ed8;
+
+  transform:translateY(-2px);
+
+}
 </style>
 </head>
 <body>
@@ -133,9 +163,16 @@ body{
     <h1>KẾT QUẢ BÀI THI</h1>
 
     <div class="score"
-    id="scoreBox">
+id="scoreBox">
 
-    </div>
+</div>
+
+<button class="finish-btn"
+onclick="finishExam()">
+
+  HOÀN TẤT
+
+</button>
 
   </div>
 
@@ -211,7 +248,19 @@ results.forEach((r,index)=>{
 document.getElementById(
   'resultContainer'
 ).innerHTML = html;
+function finishExam(){
 
+  // xóa dữ liệu cũ
+  localStorage.removeItem('score');
+  localStorage.removeItem('total');
+  localStorage.removeItem('results');
+  localStorage.removeItem('savedAnswers');
+  localStorage.removeItem('endTime');
+
+  // quay về trang đăng nhập
+  window.location.href = 'index.html';
+
+}
 </script>
 
 </body>
