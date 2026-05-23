@@ -267,7 +267,19 @@ cursor:pointer;
 ">
 CHI TIẾT
 </button>
-
+<button
+onclick="viewLive('${data.examCode}')"
+style="
+padding:8px 14px;
+border:none;
+border-radius:12px;
+background:#10b981;
+color:white;
+font-weight:700;
+cursor:pointer;
+">
+XEM LIVE
+</button>
 <button
 onclick="deleteResult('${doc.id}')"
 style="
@@ -410,32 +422,7 @@ box.style.display = "none";
 }
 
 }
-// ===== XÓA TOÀN BỘ DỮ LIỆU =====
 
-window.clearResults = async function(){
-
-let confirmDelete = confirm(
-"Bạn có chắc muốn xóa toàn bộ dữ liệu?"
-);
-
-if(!confirmDelete) return;
-
-// ===== XÓA RESULTS =====
-
-const resultSnapshot =
-await getDocs(
-collection(db,"results")
-);
-
-for(const item of resultSnapshot.docs){
-
-  await deleteDoc(
-    doc(db,"results",item.id)
-  );
-
-}
-
-}
 // ===== XÓA TOÀN BỘ DỮ LIỆU =====
 
 window.clearResults = async function(){
@@ -477,6 +464,14 @@ for(const item of liveSnapshot.docs){
 };
 
 alert("Đã xóa toàn bộ dữ liệu!");
+
+}
+window.viewLive = function(examCode){
+
+window.open(
+`exam.html?view=${examCode}`,
+"_blank"
+);
 
 }
 window.deleteResult = async function(id){
