@@ -494,7 +494,9 @@
 
     let studentName = localStorage.getItem('studentName');
 
-    let examCode = localStorage.getItem('examCode');
+    let examCode = isViewer
+? viewCode
+: localStorage.getItem('examCode');
 
     let examID = localStorage.getItem('examID');
 const urlParams =
@@ -783,7 +785,7 @@ e => e.preventDefault(),
 );
 onSnapshot(
 
-doc(db,"liveUsers",viewCode),
+doc(db,"liveUsers",examCode),
 
 (snapshot)=>{
 
@@ -1798,6 +1800,7 @@ initializeApp(firebaseConfig);
 const db =
 getFirestore(app);
 // ===== TẠO REALTIME STATUS =====
+if(!isViewer){
 
 await setDoc(
 doc(db,"liveUsers",examCode),
@@ -1808,6 +1811,14 @@ examCode: examCode,
 currentPart: "PHẦN I",
 currentQuestion: 1,
 progress: 0,
+
+currentAnswers:
+JSON.stringify({
+part1:[],
+part2:[],
+part3:[]
+}),
+
 lastUpdate: new Date().toLocaleTimeString()
 
 },
@@ -1815,6 +1826,8 @@ lastUpdate: new Date().toLocaleTimeString()
 merge:true
 }
 );
+
+}
 // ===== HÀM UPDATE TIẾN ĐỘ =====
 
 async function updateProgress(part,question,progress){
