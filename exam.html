@@ -759,13 +759,11 @@ document.getElementById('examContainer')
 
     // ===== CHỌN ĐÁP ÁN =====
 
-function selectOption(element){
+async function selectOption(element){
 
-  let optionsBox =
-  element.closest('.options');
+  let parent = element.parentElement;
 
-  optionsBox
-  .querySelectorAll('.option')
+  parent.querySelectorAll('.option')
   .forEach(opt=>{
 
     opt.classList.remove('selected');
@@ -773,6 +771,27 @@ function selectOption(element){
   });
 
   element.classList.add('selected');
+
+  let questionBox =
+  element.closest('.question');
+
+  let allQuestions =
+  [...document.querySelectorAll('.part1-question,.part2-question,.part3-question')];
+
+  let currentIndex =
+  allQuestions.indexOf(questionBox)+1;
+
+  let progress =
+  Math.round(
+    (currentIndex / allQuestions.length)
+    * 100
+  );
+
+  await updateProgress(
+    "ĐANG LÀM",
+    currentIndex,
+    progress
+  );
 
 }
 function selectDigit(element,pos){
@@ -1048,7 +1067,15 @@ collection(db,"results"),
   new Date().toLocaleString()
 
 });
+await addDoc(collection(db,"results"),{
 
+studentName: studentName,
+examCode: examCode,
+score: score.toFixed(2),
+results: results,
+submitTime: new Date().toLocaleString()
+
+});
   window.location.href =
   'result.html';
 
@@ -1096,8 +1123,11 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
 getFirestore,
-collection,
-addDoc
+doc,
+setDoc,
+updateDoc,
+addDoc,
+collection
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -1124,13 +1154,36 @@ initializeApp(firebaseConfig);
 
 const db =
 getFirestore(app);
+// ===== TẠO REALTIME STATUS =====
 
+await setDoc(doc(db,"liveUsers",examCode),{
+
+studentName: studentName,
+examCode: examCode,
+currentPart: "PHẦN I",
+currentQuestion: 1,
+progress: 0,
+lastUpdate: new Date().toLocaleTimeString()
+
+});
+// ===== HÀM UPDATE TIẾN ĐỘ =====
+
+async function updateProgress(part,question,progress){
+
+await updateDoc(doc(db,"liveUsers",examCode),{
+
+currentPart: part,
+currentQuestion: question,
+progress: progress,
+lastUpdate: new Date().toLocaleTimeString()
+
+});
+
+}
+window.updateProgress = updateProgress;
 window.db = db;
-
 window.collection = collection;
-
 window.addDoc = addDoc;
-
 </script>
 </body>
 </html>
