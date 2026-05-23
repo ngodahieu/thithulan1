@@ -241,8 +241,49 @@ html += `
 
 <div class="student-card">
 
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+">
+
 <div class="student-name">
 ${data.studentName}
+</div>
+
+<div style="display:flex;gap:10px;">
+
+<button
+onclick="toggleDetail('${doc.id}')"
+style="
+padding:8px 14px;
+border:none;
+border-radius:12px;
+background:#2563eb;
+color:white;
+font-weight:700;
+cursor:pointer;
+">
+CHI TIẾT
+</button>
+
+<button
+onclick="deleteResult('${doc.id}')"
+style="
+padding:8px 14px;
+border:none;
+border-radius:12px;
+background:#ef4444;
+color:white;
+font-weight:700;
+cursor:pointer;
+">
+XÓA
+</button>
+
+</div>
+
 </div>
 
 <div>
@@ -286,8 +327,7 @@ let data = doc.data();
 
 html += `
 
-<div class="student-card"
-onclick="toggleDetail('${doc.id}')">
+<div class="student-card">
 
 <div class="student-name">
 ${data.studentName}
@@ -437,6 +477,21 @@ for(const item of liveSnapshot.docs){
 };
 
 alert("Đã xóa toàn bộ dữ liệu!");
+
+}
+window.deleteResult = async function(id){
+
+let confirmDelete = confirm(
+"Bạn có chắc muốn xóa bài thi này?"
+);
+
+if(!confirmDelete) return;
+
+await deleteDoc(
+doc(db,"results",id)
+);
+
+alert("Đã xóa bài thi!");
 
 }
 </script>
