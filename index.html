@@ -214,18 +214,15 @@
 const students = {
 
   "HS001":{
-    name:"Ngô Đa Hiếu",
-    exam:"0304"
+    name:"Ngô Đa Hiếu"
   },
 
   "HS002":{
-    name:"Trần Minh Hiếu",
-    exam:"0302"
+    name:"Trần Minh Hiếu"
   },
 
   "HS003":{
-    name:"Lê Gia Hân",
-    exam:"0301"
+    name:"Lê Gia Hân"
   }
 
 };
@@ -274,9 +271,9 @@ function startExam(){
     );
 
     localStorage.setItem(
-      "examID",
-      students[code].exam
-    );
+  "examID",
+  "0304"
+);
 
     window.location.href =
     "info.html";
