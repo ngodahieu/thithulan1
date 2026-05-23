@@ -497,7 +497,14 @@
     let examCode = localStorage.getItem('examCode');
 
     let examID = localStorage.getItem('examID');
+const urlParams =
+new URLSearchParams(window.location.search);
 
+const viewCode =
+urlParams.get('view');
+
+const isViewer =
+viewCode ? true : false;
     // ===== KIỂM TRA =====
 
     if(!studentName || !examCode || !examID){
@@ -756,6 +763,46 @@ html += `
 
 document.getElementById('examContainer')
 .innerHTML = html;
+// ===== CHẾ ĐỘ XEM LIVE =====
+
+if(isViewer){
+
+document.title =
+"THEO DÕI THÍ SINH";
+
+onSnapshot(
+doc(db,"liveUsers",viewCode),
+(snapshot)=>{
+
+let data = snapshot.data();
+
+if(!data) return;
+
+let allQuestions = [
+
+...document.querySelectorAll(
+'.part1-question,.part2-question,.part3-question'
+)
+
+];
+
+let target =
+allQuestions[data.currentQuestion-1];
+
+if(target){
+
+target.scrollIntoView({
+
+behavior:"smooth",
+block:"center"
+
+});
+
+}
+
+});
+
+}
 // ===== KHÔI PHỤC ĐÁP ÁN =====
 
 restoreAnswers();
@@ -879,7 +926,7 @@ function restoreAnswers(){
     // ===== CHỌN ĐÁP ÁN =====
 
 async function selectOption(element){
-
+if(isViewer) return;
   let parent = element.parentElement;
 
   parent.querySelectorAll('.option')
@@ -916,7 +963,7 @@ async function selectOption(element){
 
 }
 function selectDigit(element,pos){
-
+if(isViewer) return;
   let column =
   element.parentElement;
 
@@ -1385,6 +1432,40 @@ let timer = setInterval(()=>{
   }
 
 },1000);
+window.addEventListener("scroll",()=>{
+
+if(isViewer) return;
+
+let allQuestions = [
+
+...document.querySelectorAll(
+'.part1-question,.part2-question,.part3-question'
+)
+
+];
+
+allQuestions.forEach(async (q,index)=>{
+
+let rect = q.getBoundingClientRect();
+
+if(rect.top >= 0 && rect.top <= 300){
+
+let progress =
+Math.round(
+((index+1)/allQuestions.length)*100
+);
+
+await updateProgress(
+"ĐANG LÀM",
+index+1,
+progress
+);
+
+}
+
+});
+
+});
   </script>
   <script type="module">
 
@@ -1397,7 +1478,8 @@ doc,
 setDoc,
 updateDoc,
 addDoc,
-collection
+collection,
+onSnapshot
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
