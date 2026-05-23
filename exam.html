@@ -798,52 +798,86 @@ function submitExam(){
 
   let score = 0;
 
-let answers = [];
+  let results = [];
 
   // ===== PHẦN I =====
 
   document.querySelectorAll(
-  '.part1-question'
-).forEach(question=>{
+    '.part1-question'
+  ).forEach((question,index)=>{
 
-  let selected =
-  question.querySelector('.selected');
+    let selected =
+    question.querySelector('.selected');
 
-  let answer =
-  selected
-  ? selected.innerText
-  : "Chưa chọn";
+    let selectedAnswer =
+    selected
+    ? selected.innerText
+    : "Chưa chọn";
 
-  answers.push(answer);
+    let correctAnswer =
+    exams[examID].part1[index].correct;
 
-  if(
-    selected &&
-    selected.dataset.correct==="true"
-  ){
+    let isCorrect =
+    selectedAnswer === correctAnswer;
 
-    score += 0.25;
+    if(isCorrect){
 
-  }
+      score += 0.25;
 
-});
+    }
+
+    results.push({
+
+      question:
+      exams[examID].part1[index].question,
+
+      selected:
+      selectedAnswer,
+
+      correct:
+      correctAnswer,
+
+      status:
+      isCorrect
+
+    });
+
+  });
+
   // ===== PHẦN II =====
 
   document.querySelectorAll(
     '.part2-question'
-  ).forEach(question=>{
+  ).forEach((question,index)=>{
 
     let correctCount = 0;
 
+    let selectedList = [];
+
+    let correctList = [];
+
     question.querySelectorAll('.options')
-    .forEach(group=>{
+    .forEach((group,i)=>{
 
       let selected =
       group.querySelector('.selected');
 
-      if(
-        selected &&
-        selected.dataset.correct==="true"
-      ){
+      let answer =
+      selected
+      ? selected.innerText
+      : "Chưa chọn";
+
+      selectedList.push(answer);
+
+      let correct =
+      exams[examID]
+      .part2[index]
+      .statements[i]
+      .correct;
+
+      correctList.push(correct);
+
+      if(answer === correct){
 
         correctCount++;
 
@@ -851,67 +885,105 @@ let answers = [];
 
     });
 
+    let partScore = 0;
+
     if(correctCount===4){
 
-      score += 1;
+      partScore = 1;
 
     }else if(correctCount===3){
 
-      score += 0.5;
+      partScore = 0.5;
 
     }else if(correctCount===2){
 
-      score += 0.25;
+      partScore = 0.25;
 
     }else if(correctCount===1){
 
-      score += 0.1;
+      partScore = 0.1;
 
     }
+
+    score += partScore;
+
+    results.push({
+
+      question:
+      exams[examID].part2[index].question,
+
+      selected:
+      selectedList.join(" | "),
+
+      correct:
+      correctList.join(" | "),
+
+      status:
+      correctCount===4
+
+    });
 
   });
 
   // ===== PHẦN III =====
 
-document.querySelectorAll(
-  '.part3-question'
-).forEach(question=>{
+  document.querySelectorAll(
+    '.part3-question'
+  ).forEach((question,index)=>{
 
-  let answer = "";
+    let answer = "";
 
-  question.querySelectorAll(
-    '.digit-column'
-  ).forEach(column=>{
+    question.querySelectorAll(
+      '.digit-column'
+    ).forEach(column=>{
 
-    let selected =
-    column.querySelector(
-      '.digit-selected'
-    );
+      let selected =
+      column.querySelector(
+        '.digit-selected'
+      );
 
-    if(selected){
+      if(selected){
 
-      answer += selected.dataset.value;
+        answer +=
+        selected.dataset.value;
+
+      }
+
+    });
+
+    let correct =
+    exams[examID]
+    .part3[index]
+    .correct;
+
+    let isCorrect =
+    answer === correct;
+
+    if(isCorrect){
+
+      score += 0.25;
 
     }
 
+    results.push({
+
+      question:
+      exams[examID].part3[index].question,
+
+      selected:
+      answer || "Chưa chọn",
+
+      correct:
+      correct,
+
+      status:
+      isCorrect
+
+    });
+
   });
 
-  let correct =
-  exams[examID]
-  .part3[
-    [...document.querySelectorAll('.part3-question')]
-    .indexOf(question)
-  ].correct;
-
-  if(answer === correct){
-
-    score += 0.25;
-
-  }
-
-});
-
-  // ===== GIỚI HẠN 10 ĐIỂM =====
+  // ===== GIỚI HẠN =====
 
   if(score > 10){
 
@@ -919,10 +991,22 @@ document.querySelectorAll(
 
   }
 
+  // ===== LƯU =====
+
   localStorage.setItem(
-  'answers',
-  JSON.stringify(answers)
-);
+    'score',
+    score.toFixed(2)
+  );
+
+  localStorage.setItem(
+    'total',
+    '10'
+  );
+
+  localStorage.setItem(
+    'results',
+    JSON.stringify(results)
+  );
 
   window.location.href =
   'result.html';
