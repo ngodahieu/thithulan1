@@ -756,7 +756,126 @@ html += `
 
 document.getElementById('examContainer')
 .innerHTML = html;
+// ===== KHÔI PHỤC ĐÁP ÁN =====
 
+restoreAnswers();
+
+function restoreAnswers(){
+
+  let saved =
+  localStorage.getItem(
+    "savedAnswers"
+  );
+
+  if(!saved) return;
+
+  let answers =
+  JSON.parse(saved);
+
+  // PART 1
+
+  document.querySelectorAll(
+    '.part1-question'
+  ).forEach((question,index)=>{
+
+    let answer =
+    answers.part1[index];
+
+    if(!answer) return;
+
+    question.querySelectorAll('.option')
+    .forEach(opt=>{
+
+      if(
+        opt.innerText.trim()
+        === answer.trim()
+      ){
+
+        opt.classList.add(
+          'selected'
+        );
+
+      }
+
+    });
+
+  });
+
+  // PART 2
+
+  document.querySelectorAll(
+    '.part2-question'
+  ).forEach((question,index)=>{
+
+    let arr =
+    answers.part2[index];
+
+    if(!arr) return;
+
+    question.querySelectorAll('.options')
+    .forEach((group,i)=>{
+
+      let answer = arr[i];
+
+      group.querySelectorAll('.option')
+      .forEach(opt=>{
+
+        if(
+          opt.innerText.trim()
+          === answer
+        ){
+
+          opt.classList.add(
+            'selected'
+          );
+
+        }
+
+      });
+
+    });
+
+  });
+
+  // PART 3
+
+  document.querySelectorAll(
+    '.part3-question'
+  ).forEach((question,index)=>{
+
+    let arr =
+    answers.part3[index];
+
+    if(!arr) return;
+
+    question.querySelectorAll(
+      '.digit-column'
+    ).forEach((column,i)=>{
+
+      let value = arr[i];
+
+      column.querySelectorAll(
+        '.digit-option'
+      ).forEach(opt=>{
+
+        if(
+          opt.dataset.value
+          === value
+        ){
+
+          opt.classList.add(
+            'digit-selected'
+          );
+
+        }
+
+      });
+
+    });
+
+  });
+
+}
     // ===== CHỌN ĐÁP ÁN =====
 
 async function selectOption(element){
@@ -771,6 +890,8 @@ async function selectOption(element){
   });
 
   element.classList.add('selected');
+
+  saveAnswers();
 
   let questionBox =
   element.closest('.question');
@@ -799,18 +920,21 @@ function selectDigit(element,pos){
   let column =
   element.parentElement;
 
-  // nếu đang được chọn -> bấm lại sẽ hủy chọn
-  if(element.classList.contains('digit-selected')){
+  // bấm lại để hủy
+  if(element.classList.contains(
+    'digit-selected'
+  )){
 
     element.classList.remove(
       'digit-selected'
     );
 
+    saveAnswers();
+
     return;
 
   }
 
-  // bỏ chọn các số khác trong cột
   column.querySelectorAll('.digit-option')
   .forEach(opt=>{
 
@@ -820,9 +944,104 @@ function selectDigit(element,pos){
 
   });
 
-  // chọn số mới
   element.classList.add(
     'digit-selected'
+  );
+
+  saveAnswers();
+
+}
+// ===== LƯU ĐÁP ÁN =====
+
+function saveAnswers(){
+
+  let answers = {
+
+    part1:[],
+    part2:[],
+    part3:[]
+
+  };
+
+  // PART 1
+
+  document.querySelectorAll(
+    '.part1-question'
+  ).forEach(question=>{
+
+    let selected =
+    question.querySelector(
+      '.option.selected'
+    );
+
+    answers.part1.push(
+      selected
+      ? selected.innerText
+      : null
+    );
+
+  });
+
+  // PART 2
+
+  document.querySelectorAll(
+    '.part2-question'
+  ).forEach(question=>{
+
+    let arr = [];
+
+    question.querySelectorAll('.options')
+    .forEach(group=>{
+
+      let selected =
+      group.querySelector(
+        '.option.selected'
+      );
+
+      arr.push(
+        selected
+        ? selected.innerText
+        : null
+      );
+
+    });
+
+    answers.part2.push(arr);
+
+  });
+
+  // PART 3
+
+  document.querySelectorAll(
+    '.part3-question'
+  ).forEach(question=>{
+
+    let arr = [];
+
+    question.querySelectorAll(
+      '.digit-column'
+    ).forEach(column=>{
+
+      let selected =
+      column.querySelector(
+        '.digit-selected'
+      );
+
+      arr.push(
+        selected
+        ? selected.dataset.value
+        : null
+      );
+
+    });
+
+    answers.part3.push(arr);
+
+  });
+
+  localStorage.setItem(
+    "savedAnswers",
+    JSON.stringify(answers)
   );
 
 }
@@ -1089,45 +1308,83 @@ results: results,
 submitTime: new Date().toLocaleString()
 
 });
+localStorage.removeItem(
+  "savedAnswers"
+);
+
+localStorage.removeItem(
+  "endTime"
+);
   window.location.href =
   'result.html';
 
 }
+// ===== TIMER KHÔNG RESET KHI LOAD =====
 
-    // ===== ĐỒNG HỒ =====
+const EXAM_TIME = 50 * 60;
 
-    let totalTime = 50 * 60;
+// nếu chưa có thời gian kết thúc
+if(!localStorage.getItem("endTime")){
 
-    let timer = setInterval(()=>{
+  let endTime =
+  Date.now() + EXAM_TIME * 1000;
 
-      let minutes = Math.floor(totalTime / 60);
+  localStorage.setItem(
+    "endTime",
+    endTime
+  );
 
-      let seconds = totalTime % 60;
+}
 
-      minutes = minutes < 10
-      ? "0"+minutes
-      : minutes;
+let timer = setInterval(()=>{
 
-      seconds = seconds < 10
-      ? "0"+seconds
-      : seconds;
+  let endTime =
+  parseInt(
+    localStorage.getItem("endTime")
+  );
 
-      document.getElementById('time')
-      .innerText = `${minutes}:${seconds}`;
+  let remaining =
+  Math.floor(
+    (endTime - Date.now()) / 1000
+  );
 
-      totalTime--;
+  if(remaining < 0){
 
-      if(totalTime < 0){
+    remaining = 0;
 
-        clearInterval(timer);
+  }
 
-        alert('Đã hết thời gian làm bài!');
-submitExam();
+  let minutes =
+  Math.floor(remaining / 60);
 
-      }
+  let seconds =
+  remaining % 60;
 
-    },1000);
+  minutes =
+  minutes < 10
+  ? "0"+minutes
+  : minutes;
 
+  seconds =
+  seconds < 10
+  ? "0"+seconds
+  : seconds;
+
+  document.getElementById("time")
+  .innerText =
+  `${minutes}:${seconds}`;
+
+  if(remaining <= 0){
+
+    clearInterval(timer);
+
+    alert("Đã hết thời gian làm bài!");
+
+    submitExam();
+
+  }
+
+},1000);
   </script>
   <script type="module">
 
