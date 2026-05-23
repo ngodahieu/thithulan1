@@ -136,8 +136,34 @@ color:#cbd5e1;
 <body>
 <div class="container">
 
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+">
+
 <div class="title">
 ADMIN DASHBOARD
+</div>
+
+<button onclick="clearResults()"
+style="
+padding:14px 22px;
+border:none;
+border-radius:16px;
+background:#ef4444;
+color:white;
+font-size:15px;
+font-weight:700;
+cursor:pointer;
+transition:.25s;
+">
+
+XÓA TOÀN BỘ
+
+</button>
+
 </div>
 
 <div class="grid">
@@ -172,7 +198,10 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
 getFirestore,
 collection,
-onSnapshot
+onSnapshot,
+getDocs,
+deleteDoc,
+doc
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -341,7 +370,75 @@ box.style.display = "none";
 }
 
 }
+// ===== XÓA TOÀN BỘ DỮ LIỆU =====
 
+window.clearResults = async function(){
+
+let confirmDelete = confirm(
+"Bạn có chắc muốn xóa toàn bộ dữ liệu?"
+);
+
+if(!confirmDelete) return;
+
+// ===== XÓA RESULTS =====
+
+const resultSnapshot =
+await getDocs(
+collection(db,"results")
+);
+
+for(const item of resultSnapshot.docs){
+
+  await deleteDoc(
+    doc(db,"results",item.id)
+  );
+
+}
+
+}
+// ===== XÓA TOÀN BỘ DỮ LIỆU =====
+
+window.clearResults = async function(){
+
+let confirmDelete = confirm(
+"Bạn có chắc muốn xóa toàn bộ dữ liệu?"
+);
+
+if(!confirmDelete) return;
+
+// ===== XÓA RESULTS =====
+
+const resultSnapshot =
+await getDocs(
+collection(db,"results")
+);
+
+for(const item of resultSnapshot.docs){
+
+  await deleteDoc(
+    doc(db,"results",item.id)
+  );
+
+}
+
+// ===== XÓA LIVE USERS =====
+
+const liveSnapshot =
+await getDocs(
+collection(db,"liveUsers")
+);
+
+for(const item of liveSnapshot.docs){
+
+  await deleteDoc(
+    doc(db,"liveUsers",item.id)
+  );
+
+};
+
+alert("Đã xóa toàn bộ dữ liệu!");
+
+}
 </script>
 
 </body>
