@@ -769,7 +769,18 @@ if(isViewer){
 
 document.title =
 "THEO DÕI THÍ SINH";
+document.body.style.overflow = "hidden";
+window.addEventListener(
+'wheel',
+e => e.preventDefault(),
+{ passive:false }
+);
 
+window.addEventListener(
+'touchmove',
+e => e.preventDefault(),
+{ passive:false }
+);
 onSnapshot(
 
 doc(db,"liveUsers",viewCode),
@@ -1614,15 +1625,7 @@ collection(db,"results"),
   new Date().toLocaleString()
 
 });
-await addDoc(collection(db,"results"),{
 
-studentName: studentName,
-examCode: examCode,
-score: score.toFixed(2),
-results: results,
-submitTime: new Date().toLocaleString()
-
-});
 localStorage.removeItem(
   "savedAnswers"
 );
@@ -1787,7 +1790,9 @@ const db =
 getFirestore(app);
 // ===== TẠO REALTIME STATUS =====
 
-await setDoc(doc(db,"liveUsers",examCode),{
+await setDoc(
+doc(db,"liveUsers",examCode),
+{
 
 studentName: studentName,
 examCode: examCode,
@@ -1796,7 +1801,11 @@ currentQuestion: 1,
 progress: 0,
 lastUpdate: new Date().toLocaleTimeString()
 
-});
+},
+{
+merge:true
+}
+);
 // ===== HÀM UPDATE TIẾN ĐỘ =====
 
 async function updateProgress(part,question,progress){
