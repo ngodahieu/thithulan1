@@ -126,8 +126,8 @@
         <strong id="examCode"></strong>
       </div>
       <div class="info">
-  <span>Mã đề</span>
-  <strong id="examID"></strong>
+  <span>Hình thức</span>
+  <strong>Đề xáo trộn tự động</strong>
 </div>
       <button onclick="goExam()">
         Vào Làm Bài
@@ -138,10 +138,6 @@
   </div>
 
   <script>
-    let examID = localStorage.getItem('examID');
-
-document.getElementById('examID')
-.innerText = examID;
   // Lấy dữ liệu từ localStorage
 
   let name = localStorage.getItem('studentName');
