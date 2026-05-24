@@ -505,7 +505,7 @@ if(isViewer){
 ? viewCode
 : localStorage.getItem('examCode');
 
-    let examID = localStorage.getItem('examID');
+    
     // ===== KIỂM TRA =====
 
     if(
@@ -518,8 +518,6 @@ if(isViewer){
     // ===== DANH SÁCH ĐỀ =====
 
     const exams = {
-
-      "0304":{
 part1:[
 
       {
@@ -592,13 +590,128 @@ là:`,
   correct:"2"
 }
     ]
-      }
       };
-      
-    // ===== LOAD ĐỀ =====
+    
+function shuffleArray(array){
 
-    let html = "";
+  let arr = [...array];
 
+  for(let i = arr.length - 1; i > 0; i--){
+
+    let j = Math.floor(Math.random() * (i + 1));
+
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+
+  }
+
+  return arr;
+
+}
+  // ===== XÁO TRỘN =====
+
+// PHẦN I
+let shuffledPart1 =
+shuffleArray(exam.part1)
+.map(q=>({
+
+  ...q,
+
+  options:
+  shuffleArray(q.options)
+
+}));
+
+// PHẦN II
+let shuffledPart2 =
+shuffleArray(exam.part2);
+
+// PHẦN III
+let shuffledPart3 =
+shuffleArray(exam.part3);
+// ===== LOAD ĐỀ =====
+
+// ===== XÁO TRỘN =====
+
+function shuffleArray(array){
+
+  let arr = [...array];
+
+  for(let i = arr.length - 1; i > 0; i--){
+
+    let j = Math.floor(Math.random() * (i + 1));
+
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+
+  }
+
+  return arr;
+
+}
+
+// ===== LẤY ĐỀ ĐÃ XÁO =====
+
+let shuffledData =
+localStorage.getItem("shuffledExam");
+
+let shuffledPart1;
+let shuffledPart2;
+let shuffledPart3;
+
+// nếu đã có đề thì dùng lại
+if(shuffledData){
+
+  let parsed =
+  JSON.parse(shuffledData);
+
+  shuffledPart1 =
+  parsed.part1;
+
+  shuffledPart2 =
+  parsed.part2;
+
+  shuffledPart3 =
+  parsed.part3;
+
+}else{
+
+  // ===== XÁO MỚI =====
+
+  shuffledPart1 =
+  shuffleArray(exam.part1)
+  .map(q=>({
+
+    ...q,
+
+    options:
+    shuffleArray(q.options)
+
+  }));
+
+  shuffledPart2 =
+  shuffleArray(exam.part2);
+
+  shuffledPart3 =
+  shuffleArray(exam.part3);
+
+  // ===== LƯU ĐỀ =====
+
+  localStorage.setItem(
+
+    "shuffledExam",
+
+    JSON.stringify({
+
+      part1: shuffledPart1,
+      part2: shuffledPart2,
+      part3: shuffledPart3
+
+    })
+
+  );
+
+}
+
+let html = "";
 // ===== PHẦN I =====
 
 html += `
@@ -613,7 +726,7 @@ html += `
 
 `;
 
-exams[examID].part1.forEach((q,index)=>{
+shuffledPart1.forEach((q,index)=>{
 
   html += `
 
@@ -661,7 +774,7 @@ PHẦN II: TRẮC NGHIỆM ĐÚNG - SAI
 
 `;
 
-exams[examID].part2.forEach((q,index)=>{
+shuffledPart2.forEach((q,index)=>{
 
 html += `
 
@@ -728,7 +841,7 @@ html += `
 
 `;
 
-exams[examID].part3.forEach((q,index)=>{
+shuffledPart3.forEach((q,index)=>{
 
 html += `
 
@@ -1334,7 +1447,7 @@ question.querySelector('.options .selected');
     : "Chưa chọn";
 
     let correctAnswer =
-    exams[examID].part1[index].correct;
+    shuffledPart1[index].correct;
 
     let isCorrect =
     selectedAnswer === correctAnswer;
@@ -1348,7 +1461,7 @@ question.querySelector('.options .selected');
     results.push({
 
       question:
-      exams[examID].part1[index].question,
+      shuffledPart1[index].question,
 
       selected:
       selectedAnswer,
@@ -1389,10 +1502,9 @@ question.querySelector('.options .selected');
       selectedList.push(answer);
 
       let correct =
-      exams[examID]
-      .part2[index]
-      .statements[i]
-      .correct;
+      shuffledPart2[index]
+.statements[i]
+.correct;
 
       correctList.push(correct);
 
@@ -1429,7 +1541,7 @@ question.querySelector('.options .selected');
     results.push({
 
       question:
-      exams[examID].part2[index].question,
+      shuffledPart2[index].question,
 
       selected:
       selectedList.join(" | "),
@@ -1473,9 +1585,8 @@ document.querySelectorAll(
   answerArray.join("").trim();
 
   let correct =
-  exams[examID]
-  .part3[index]
-  .correct
+  shuffledPart3[index]
+.correct
   .trim();
 
   // bỏ số 0 đầu
@@ -1569,7 +1680,9 @@ collection(db,"results"),
 localStorage.removeItem(
   "savedAnswers"
 );
-
+localStorage.removeItem(
+  "shuffledExam"
+);
 localStorage.removeItem(
   "endTime"
 );
