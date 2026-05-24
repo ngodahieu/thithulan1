@@ -1730,38 +1730,60 @@ let timer = setInterval(()=>{
   }
 
 },1000);
-window.addEventListener("scroll",()=>{
+let scrollTimeout;
 
-if(isViewer) return;
+window.addEventListener("scroll", async ()=>{
 
-let allQuestions = [
+  if(isViewer) return;
 
-...document.querySelectorAll(
-'.part1-question,.part2-question,.part3-question'
-)
+  clearTimeout(scrollTimeout);
 
-];
+  scrollTimeout = setTimeout(async ()=>{
 
-allQuestions.forEach(async (q,index)=>{
+    let allQuestions = [
 
-let rect = q.getBoundingClientRect();
+      ...document.querySelectorAll(
+      '.part1-question,.part2-question,.part3-question'
+      )
 
-if(rect.top >= 0 && rect.top <= 300){
+    ];
 
-let progress =
-Math.round(
-((index+1)/allQuestions.length)*100
-);
+    let currentIndex = 1;
 
-await updateProgress(
-"ĐANG LÀM",
-index+1,
-progress
-);
+    allQuestions.forEach((q,index)=>{
 
-}
+      let rect = q.getBoundingClientRect();
 
-});
+      if(rect.top >= 0 && rect.top <= 300){
+
+        currentIndex = index + 1;
+
+      }
+
+    });
+
+    let progress = Math.round(
+      (currentIndex / allQuestions.length) * 100
+    );
+
+    await updateDoc(
+      doc(db,"liveUsers",examCode),
+      {
+
+        currentQuestion: currentIndex,
+
+        progress: progress,
+
+        scrollY: window.scrollY,
+
+        lastUpdate:
+        new Date().toLocaleTimeString()
+
+      }
+
+    );
+
+  },50);
 
 });
   </script>
@@ -1861,19 +1883,6 @@ if(isViewer){
 
   document.title = "THEO DÕI THÍ SINH";
 document.body.style.overflowY = "auto";
-  document.body.style.overflow = "hidden";
-
-  window.addEventListener(
-    'wheel',
-    e => e.preventDefault(),
-    { passive:false }
-  );
-
-  window.addEventListener(
-    'touchmove',
-    e => e.preventDefault(),
-    { passive:false }
-  );
 
   onSnapshot(
 
@@ -1906,16 +1915,17 @@ document.body.style.overflowY = "auto";
         data.currentQuestion - 1
       ];
 
-      if(target){
+      if(data.scrollY !== undefined){
 
-        target.scrollIntoView({
+  window.scrollTo({
 
-          behavior:"smooth",
-          block:"center"
+    top: data.scrollY,
 
-        });
+    behavior: "smooth"
 
-      }
+  });
+
+}
 
       // ===== HIỆN ĐÁP ÁN =====
 
