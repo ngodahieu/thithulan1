@@ -25,6 +25,7 @@
       min-height:100vh;
       padding:20px;
       padding-top:95px;
+      scroll-behavior:auto;
     }
 
     .container{
@@ -1732,7 +1733,7 @@ let timer = setInterval(()=>{
 },1000);
 let scrollTimeout;
 
-window.addEventListener("scroll", async ()=>{
+window.addEventListener("scroll", ()=>{
 
   if(isViewer) return;
 
@@ -1754,7 +1755,7 @@ window.addEventListener("scroll", async ()=>{
 
       let rect = q.getBoundingClientRect();
 
-      if(rect.top >= 0 && rect.top <= 300){
+      if(rect.top >= -150 && rect.top <= 250){
 
         currentIndex = index + 1;
 
@@ -1783,7 +1784,7 @@ window.addEventListener("scroll", async ()=>{
 
     );
 
-  },50);
+  },120);
 
 });
   </script>
@@ -1917,13 +1918,23 @@ document.body.style.overflowY = "auto";
 
       if(data.scrollY !== undefined){
 
-  window.scrollTo({
+  let distance =
+  Math.abs(
+    window.scrollY - data.scrollY
+  );
 
-    top: data.scrollY,
+  // chỉ scroll khi lệch đáng kể
+  if(distance > 20){
 
-    behavior: "smooth"
+    window.scrollTo({
 
-  });
+      top: data.scrollY,
+
+      behavior: "auto"
+
+    });
+
+  }
 
 }
 
