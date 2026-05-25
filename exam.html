@@ -851,7 +851,12 @@ html += `
 document.getElementById('examContainer')
 .innerHTML = html;
 
-// ===== KHÔI PHỤC ĐÁP ÁN =====
+// chỉ thí sinh mới restore local
+if(!isViewer){
+
+  restoreAnswers();
+
+}
 function restoreAnswersFromLive(
 answers
 ){
@@ -982,7 +987,6 @@ opt.classList.add(
 });
 
 }
-restoreAnswers();
 
 function restoreAnswers(){
 
