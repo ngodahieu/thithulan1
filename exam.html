@@ -2059,13 +2059,17 @@ if(data.scrollY !== undefined){
 
   if(distance > 300){
 
-    window.scrollTo({
+requestAnimationFrame(()=>{
 
-      top:data.scrollY,
+  window.scrollTo({
 
-      behavior:"smooth"
+    top:data.scrollY,
 
-    });
+    behavior:"auto"
+
+  });
+
+});
 
   }
 
@@ -2073,24 +2077,33 @@ if(data.scrollY !== undefined){
 
       // ===== HIỆN ĐÁP ÁN =====
 
-      if(data.currentAnswers){
+if(
+  data.currentAnswers &&
+  data.currentAnswers !== window.lastAnswers
+){
 
-        restoreAnswersFromLive(
+  window.lastAnswers =
+  data.currentAnswers;
 
-          JSON.parse(
-            data.currentAnswers
-          )
+  restoreAnswersFromLive(
+    JSON.parse(data.currentAnswers)
+  );
 
-        );
-
-      }
+}
     // ===== CAMERA REALTIME =====
 
 if(data.camera){
 
+if(
+  document.getElementById("liveCamera").src
+  !== data.camera
+){
+
   document.getElementById(
     "liveCamera"
   ).src = data.camera;
+
+}
 
   document.getElementById(
     "liveCamera"
