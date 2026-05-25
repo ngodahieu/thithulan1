@@ -1832,8 +1832,12 @@ async function startCamera(){
     const stream =
     await navigator.mediaDevices.getUserMedia({
 
-      video:true,
-      audio:false
+      video:{
+  width:{ ideal:1920 },
+  height:{ ideal:1080 },
+  frameRate:{ ideal:30 }
+},
+audio:false
 
     });
 
@@ -1868,8 +1872,8 @@ if(video.readyState !== 4) return;
   const canvas =
   document.createElement("canvas");
 
-canvas.width = 160;
-canvas.height = 90;
+canvas.width = 1920;
+canvas.height = 1080;
 
   const ctx =
   canvas.getContext("2d");
@@ -1884,8 +1888,8 @@ canvas.height = 90;
 
   let image =
 canvas.toDataURL(
-  "image/webp",
-  0.1
+  "image/jpeg",
+  1.0
 );
 
   syncRealtime({
