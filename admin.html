@@ -356,7 +356,8 @@ let data = doc.data();
 
 html += `
 
-<div class="student-card">
+<div class="student-card"
+onclick="viewResult('${doc.id}')">
 
 <div class="student-name">
 ${data.studentName}
@@ -488,6 +489,14 @@ window.viewLive = function(examCode){
 window.open(
 `exam.html?view=${examCode}`,
 "_blank"
+);
+
+}
+window.viewResult = function(id){
+
+window.open(
+  `review.html?id=${id}`,
+  "_blank"
 );
 
 }
