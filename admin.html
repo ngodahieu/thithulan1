@@ -241,6 +241,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
+let lastLiveHTML = "";
+let lastScoreHTML = "";
 
 // ===== REALTIME THÍ SINH =====
 
@@ -334,7 +336,9 @@ ${data.progress}% hoàn thành
 ⏰ ${data.remainingTime || "00:00"}
 </div>
 <img
+id="cam-${doc.id}"
 src="${data.camera || ''}"
+loading="lazy"
 style="
 width:100%;
 margin-top:15px;
@@ -347,9 +351,15 @@ border:2px solid #334155;
 `;
 
 });
+if(html !== lastLiveHTML){
+
+lastLiveHTML = html;
+
 document.getElementById(
 "liveContainer"
 ).innerHTML = html;
+
+}
 
 });
 
@@ -428,9 +438,15 @@ r.status
 
 });
 
+if(html !== lastScoreHTML){
+
+lastScoreHTML = html;
+
 document.getElementById(
 "scoreContainer"
 ).innerHTML = html;
+
+}
 
 });
 
@@ -497,7 +513,7 @@ window.viewLive = function(examCode){
 
 window.open(
 `exam.html?view=${examCode}`,
-"_blank"
+"liveViewer"
 );
 
 }
