@@ -416,7 +416,39 @@
   </style>
 </head>
 <body>
-
+<video id="camera"
+autoplay
+muted
+playsinline
+style="
+position:fixed;
+bottom:20px;
+right:20px;
+width:220px;
+height:160px;
+border-radius:20px;
+border:3px solid #2563eb;
+object-fit:cover;
+z-index:9999;
+background:black;
+box-shadow:0 10px 25px rgba(0,0,0,.3);
+">
+</video>
+<img id="liveCamera"
+style="
+position:fixed;
+bottom:20px;
+left:20px;
+width:220px;
+height:160px;
+border-radius:20px;
+border:3px solid #10b981;
+object-fit:cover;
+z-index:9999;
+background:black;
+box-shadow:0 10px 25px rgba(0,0,0,.3);
+display:none;
+">
   <!-- THANH TRÊN -->
 
   <div class="top-bar">
@@ -1790,6 +1822,82 @@ window.addEventListener("scroll", ()=>{
   },120);
 
 });
+  // ===== CAMERA REALTIME =====
+
+async function startCamera(){
+
+  try{
+
+    const stream =
+    await navigator.mediaDevices.getUserMedia({
+
+      video:true,
+      audio:false
+
+    });
+
+    document.getElementById("camera")
+    .srcObject = stream;
+
+  }catch(err){
+
+    alert("Không thể mở camera!");
+
+  }
+
+}
+
+if(!isViewer){
+
+  startCamera();
+  async function captureFrame(){
+
+  const video =
+  document.getElementById("camera");
+
+  const canvas =
+  document.createElement("canvas");
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  const ctx =
+  canvas.getContext("2d");
+
+  ctx.drawImage(
+    video,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  let image =
+  canvas.toDataURL(
+    "image/jpeg",
+    0.5
+  );
+
+  await updateDoc(
+    doc(db,"liveUsers",examCode),
+    {
+      camera:image
+    }
+  );
+
+}
+
+// gửi mỗi 2 giây
+setInterval(()=>{
+
+  if(!isViewer){
+
+    captureFrame();
+
+  }
+
+},2000);
+}
   </script>
   <script type="module">
 
@@ -1954,6 +2062,19 @@ document.body.style.overflowY = "auto";
         );
 
       }
+    // ===== CAMERA REALTIME =====
+
+if(data.camera){
+
+  document.getElementById(
+    "liveCamera"
+  ).src = data.camera;
+
+  document.getElementById(
+    "liveCamera"
+  ).style.display = "block";
+
+}
 
     }
 
