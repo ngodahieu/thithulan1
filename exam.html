@@ -1820,7 +1820,7 @@ syncRealtime({
 
 });
 
-  },120);
+  },500);
 
 });
   // ===== CAMERA REALTIME =====
@@ -2017,6 +2017,8 @@ window.onSnapshot = onSnapshot;
 if(isViewer){
 
   document.title = "THEO DÕI THÍ SINH";
+
+  let lastRemoteScroll = 0;
 document.body.style.overflowY = "auto";
 
   onSnapshot(
@@ -2050,28 +2052,20 @@ document.body.style.overflowY = "auto";
         data.currentQuestion - 1
       ];
 
-if(data.scrollY !== undefined){
+if(
+  data.scrollY !== undefined &&
+  Math.abs(lastRemoteScroll - data.scrollY) > 200
+){
 
-  let distance =
-  Math.abs(
-    window.scrollY - data.scrollY
-  );
-
-  if(distance > 300){
-
-requestAnimationFrame(()=>{
+  lastRemoteScroll = data.scrollY;
 
   window.scrollTo({
 
     top:data.scrollY,
 
-    behavior:"auto"
+    behavior:"smooth"
 
   });
-
-});
-
-  }
 
 }
 
