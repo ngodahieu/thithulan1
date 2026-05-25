@@ -1152,15 +1152,14 @@ if(isViewer) return;
   element.classList.add('selected');
 
   saveAnswers();
-await updateDoc(
-  doc(db,"liveUsers",examCode),
-  {
-    currentAnswers:
-    JSON.stringify(
-      getCurrentAnswers()
-    )
-  }
-);
+syncRealtime({
+
+  currentAnswers:
+  JSON.stringify(
+    getCurrentAnswers()
+  )
+
+});
   let questionBox =
   element.closest('.question');
 
@@ -1176,11 +1175,18 @@ await updateDoc(
     * 100
   );
 
-  await updateProgress(
-    "ĐANG LÀM",
-    currentIndex,
-    progress
-  );
+syncRealtime({
+
+  currentPart:"ĐANG LÀM",
+
+  currentQuestion:currentIndex,
+
+  progress:progress,
+
+  lastUpdate:
+  new Date().toLocaleTimeString()
+
+});
 
 }
 function selectDigit(element,pos){
@@ -1197,16 +1203,16 @@ if(isViewer) return;
       'digit-selected'
     );
 
-    saveAnswers();
-    updateDoc(
-  doc(db,"liveUsers",examCode),
-  {
-    currentAnswers:
-    JSON.stringify(
-      getCurrentAnswers()
-    )
-  }
-);
+saveAnswers();
+
+syncRealtime({
+
+  currentAnswers:
+  JSON.stringify(
+    getCurrentAnswers()
+  )
+
+});
     return;
 
   }
@@ -1224,16 +1230,16 @@ if(isViewer) return;
     'digit-selected'
   );
 
-  saveAnswers();
-    updateDoc(
-  doc(db,"liveUsers",examCode),
-  {
-    currentAnswers:
-    JSON.stringify(
-      getCurrentAnswers()
-    )
-  }
-);
+saveAnswers();
+
+syncRealtime({
+
+  currentAnswers:
+  JSON.stringify(
+    getCurrentAnswers()
+  )
+
+});
 }
 function getCurrentAnswers(){
 
@@ -1747,13 +1753,12 @@ let timer = setInterval(()=>{
   .innerText =
   `${minutes}:${seconds}`;
 
-  updateDoc(
-    doc(db,"liveUsers",examCode),
-    {
-      remainingTime:
-      `${minutes}:${seconds}`
-    }
-  );
+syncRealtime({
+
+  remainingTime:
+  `${minutes}:${seconds}`
+
+});
 
   if(remaining <= 0){
 
@@ -1802,22 +1807,18 @@ window.addEventListener("scroll", ()=>{
       (currentIndex / allQuestions.length) * 100
     );
 
-    await updateDoc(
-      doc(db,"liveUsers",examCode),
-      {
+syncRealtime({
 
-        currentQuestion: currentIndex,
+  currentQuestion: currentIndex,
 
-        progress: progress,
+  progress: progress,
 
-        scrollY: window.scrollY,
+  scrollY: window.scrollY,
 
-        lastUpdate:
-        new Date().toLocaleTimeString()
+  lastUpdate:
+  new Date().toLocaleTimeString()
 
-      }
-
-    );
+});
 
   },120);
 
@@ -1846,7 +1847,16 @@ async function startCamera(){
   }
 
 }
+let pendingData = {};
 
+function syncRealtime(data){
+
+  pendingData = {
+    ...pendingData,
+    ...data
+  };
+
+}
 if(!isViewer){
 
   startCamera();
@@ -1854,12 +1864,12 @@ if(!isViewer){
 
   const video =
   document.getElementById("camera");
-
+if(video.readyState !== 4) return;
   const canvas =
   document.createElement("canvas");
 
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
+canvas.width = 160;
+canvas.height = 90;
 
   const ctx =
   canvas.getContext("2d");
@@ -1873,17 +1883,14 @@ if(!isViewer){
   );
 
   let image =
-  canvas.toDataURL(
-    "image/jpeg",
-    0.5
-  );
+canvas.toDataURL(
+  "image/webp",
+  0.1
+);
 
-  await updateDoc(
-    doc(db,"liveUsers",examCode),
-    {
-      camera:image
-    }
-  );
+  syncRealtime({
+  camera:image
+});
 
 }
 
@@ -1898,6 +1905,22 @@ setInterval(()=>{
 
 },2000);
 }
+setInterval(async ()=>{
+
+  if(
+    Object.keys(pendingData).length
+  ){
+
+    await updateDoc(
+      doc(db,"liveUsers",examCode),
+      pendingData
+    );
+
+    pendingData = {};
+
+  }
+
+},1500);
   </script>
   <script type="module">
 
@@ -2027,21 +2050,20 @@ document.body.style.overflowY = "auto";
         data.currentQuestion - 1
       ];
 
-      if(data.scrollY !== undefined){
+if(data.scrollY !== undefined){
 
   let distance =
   Math.abs(
     window.scrollY - data.scrollY
   );
 
-  // chỉ scroll khi lệch đáng kể
-  if(distance > 20){
+  if(distance > 300){
 
     window.scrollTo({
 
-      top: data.scrollY,
+      top:data.scrollY,
 
-      behavior: "auto"
+      behavior:"smooth"
 
     });
 
