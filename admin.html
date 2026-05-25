@@ -24,6 +24,7 @@ body{
 background:#0f172a;
 padding:30px;
 color:white;
+scroll-behavior:smooth;
 }
 
 .container{
@@ -63,8 +64,22 @@ border-radius:22px;
 margin-bottom:18px;
 cursor:pointer;
 transition:.25s;
+position:relative;
+overflow:hidden;
 }
-
+.student-card::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:4px;
+height:100%;
+background:linear-gradient(
+180deg,
+#2563eb,
+#10b981
+);
+}
 .student-card:hover{
 transform:translateY(-3px);
 background:#334155;
@@ -479,16 +494,30 @@ window.open(
 window.deleteResult = async function(id){
 
 let confirmDelete = confirm(
-"Bạn có chắc muốn xóa bài thi này?"
+"Bạn có chắc muốn xóa dữ liệu này?"
 );
 
 if(!confirmDelete) return;
 
-await deleteDoc(
-doc(db,"results",id)
-);
+// xóa trong liveUsers nếu có
+try{
 
-alert("Đã xóa bài thi!");
+  await deleteDoc(
+    doc(db,"liveUsers",id)
+  );
+
+}catch(e){}
+
+// xóa trong results nếu có
+try{
+
+  await deleteDoc(
+    doc(db,"results",id)
+  );
+
+}catch(e){}
+
+alert("Đã xóa!");
 
 }
 </script>
