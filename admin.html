@@ -296,7 +296,7 @@ cursor:pointer;
 XEM LIVE
 </button>
 <button
-onclick="deleteResult('${doc.id}')"
+onclick="deleteResult('${doc.id}','${data.examCode}')"
 style="
 padding:8px 14px;
 border:none;
@@ -333,6 +333,15 @@ ${data.progress}% hoàn thành
 <div class="live-status">
 ⏰ ${data.remainingTime || "00:00"}
 </div>
+<img
+src="${data.camera || ''}"
+style="
+width:100%;
+margin-top:15px;
+border-radius:18px;
+border:2px solid #334155;
+"
+/>
 </div>
 
 `;
@@ -500,7 +509,7 @@ window.open(
 );
 
 }
-window.deleteResult = async function(id){
+window.deleteResult = async function(id,examCode){
 
 let confirmDelete = confirm(
 "Bạn có chắc muốn xóa dữ liệu này?"
@@ -508,16 +517,16 @@ let confirmDelete = confirm(
 
 if(!confirmDelete) return;
 
-// xóa trong liveUsers nếu có
+// xóa liveUsers
 try{
 
   await deleteDoc(
-    doc(db,"liveUsers",id)
+    doc(db,"liveUsers",examCode)
   );
 
 }catch(e){}
 
-// xóa trong results nếu có
+// xóa results
 try{
 
   await deleteDoc(
